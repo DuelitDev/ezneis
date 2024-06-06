@@ -100,7 +100,7 @@ class SchoolInfoParser(Parser):
             english_name=english_name,
             foundation=foundation,
             types=types,
-            part_time=part_time,
+            time=part_time,
             entrance_period=entrance_period,
             students_sex=students_sex,
             industry_supports=industry_supports,

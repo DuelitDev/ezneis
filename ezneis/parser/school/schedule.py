@@ -39,12 +39,14 @@ class SchoolScheduleParser(Parser):
         event_name        = r.EVENT_NM
         event_description = r.EVENT_CNTNT
         event_corresponds = EventCorresponds(
+            grade0=False,
             grade1=r.ONE_GRADE_EVENT_YN   == 'Y',
             grade2=r.TW_GRADE_EVENT_YN    == 'Y',
             grade3=r.THREE_GRADE_EVENT_YN == 'Y',
             grade4=r.FR_GRADE_EVENT_YN    == 'Y',
             grade5=r.FIV_GRADE_EVENT_YN   == 'Y',
-            grade6=r.SIX_GRADE_EVENT_YN   == 'Y'
+            grade6=r.SIX_GRADE_EVENT_YN   == 'Y',
+            grade7=False
         )
         event_type = (
             EventType.DAY_OFF if r.SBTR_DD_SC_NM == "휴업일" else
@@ -54,7 +56,7 @@ class SchoolScheduleParser(Parser):
         event_date = datetime.strptime(r.AA_YMD,   "%Y%m%d").date()
         return SchoolSchedule(
             year=year,
-            part_time=part_time,
+            time=part_time,
             name=event_name,
             description=event_description,
             corresponds=event_corresponds,

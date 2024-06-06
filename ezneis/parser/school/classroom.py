@@ -81,7 +81,7 @@ class ClassParser(Parser):
             department=department,
             course=course,
             course_detail=course_detail,
-            part_time=part_time,
+            time=part_time,
         )
 
     _parsers = (_parser1,)
