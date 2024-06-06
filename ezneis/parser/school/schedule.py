@@ -9,12 +9,17 @@ __all__ = [
 
 
 class SchoolScheduleParser(Parser):
+    """
+    A parser class to extract schedule from provided data.
+    """
+
     @classmethod
     def parse(cls, data) -> Tuple[SchoolSchedule, ...]:
         """
+        Parse the schedule from the given data.
 
-        :param data:
-        :return:
+        :param data: The data to parse the schedule from.
+        :return: The parsed schedule.
         """
         return tuple(cls._run_parsers(row) for row
                      in data.SchoolSchedule[1].row)
@@ -22,15 +27,14 @@ class SchoolScheduleParser(Parser):
     @staticmethod
     def _parser1(r) -> SchoolSchedule:
         """
-
-        :param r:
-        :return:
+        :param r: The object containing schedule.
+        :return: An instance of the `SchoolSchedule` class.
         """
         year = int(r.AY)
         part_time = (
-            SchedulePartTime.DAY   if r.DGHT_CRSE_SC_NM == "주간" else
-            SchedulePartTime.NIGHT if r.DGHT_CRSE_SC_NM == "야간" else
-            SchedulePartTime.NONE
+            ScheduleTimeClassification.DAY   if r.DGHT_CRSE_SC_NM == "주간" else
+            ScheduleTimeClassification.NIGHT if r.DGHT_CRSE_SC_NM == "야간" else
+            ScheduleTimeClassification.NONE
         )
         event_name        = r.EVENT_NM
         event_description = r.EVENT_CNTNT

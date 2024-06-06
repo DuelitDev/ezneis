@@ -3,17 +3,22 @@ from ezneis.types.school.classroom import *
 from uuid import uuid4
 
 __all__ = [
-    "ClassroomParser"
+    "ClassParser"
 ]
 
 
-class ClassroomParser(Parser):
+class ClassParser(Parser):
+    """
+    A parser class to extract class information from provided data.
+    """
+
     @classmethod
     def parse(cls, data) -> Classroom:
         """
+        Parse the class information from the given data.
 
-        :param data:
-        :return:
+        :param data: The data to parse the class information from.
+        :return: The parsed class information.
         """
         data = tuple(cls._run_parsers(row) for row
                      in data.classInfo[1].row)
@@ -22,9 +27,8 @@ class ClassroomParser(Parser):
     @staticmethod
     def _parser1(r) -> ClassInfo:
         """
-
-        :param r:
-        :return:
+        :param r: The object containing class information.
+        :return: An instance of the `ClassInfo` class.
         """
         year       = int(r.AY)
         grade      = int(r.GRADE)
@@ -66,9 +70,9 @@ class ClassroomParser(Parser):
             ClassDetailCourse.NONE
         )
         part_time = (
-            ClassPartTime.DAY   if r.DGHT_CRSE_SC_NM == "주간" else
-            ClassPartTime.NIGHT if r.DGHT_CRSE_SC_NM == "야간" else
-            ClassPartTime.NONE
+            ClassTimeClassification.DAY   if r.DGHT_CRSE_SC_NM == "주간" else
+            ClassTimeClassification.NIGHT if r.DGHT_CRSE_SC_NM == "야간" else
+            ClassTimeClassification.NONE
         )
         return ClassInfo(
             year=year,

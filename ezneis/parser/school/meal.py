@@ -2,23 +2,28 @@ from datetime import datetime
 from ezneis.parser.core import *
 from ezneis.types.school.meal import *
 from typing import Tuple
-import re
+from re import compile as regex_compile
 
 __all__ = [
     "SchoolMealParser"
 ]
 
-_R_P1_KCAL     = re.compile(r"[0-9]*[.][0-9]")
-_R_P1_NTR_UNIT = re.compile(r"\((.*?)\)")
+_R_P1_KCAL     = regex_compile(r"[0-9]*[.][0-9]")
+_R_P1_NTR_UNIT = regex_compile(r"\((.*?)\)")
 
 
 class SchoolMealParser(Parser):
+    """
+    A parser class to extract meal information from provided data.
+    """
+
     @classmethod
     def parse(cls, data) -> Tuple[Meal, ...]:
         """
+        Parse the meal information from the given data.
 
-        :param data:
-        :return:
+        :param data: The data to parse the meal information from.
+        :return: The parsed meal information.
         """
         return tuple(cls._run_parsers(row) for row in
                      data.mealServiceDietInfo[1].row)
@@ -26,9 +31,8 @@ class SchoolMealParser(Parser):
     @staticmethod
     def _parser1(r) -> Meal:
         """
-
-        :param r:
-        :return:
+        :param r: The object containing meal information.
+        :return: An instance of the `Meal` class.
         """
         dishes = []
         for dish in r.DDISH_NM.split("<br/>"):

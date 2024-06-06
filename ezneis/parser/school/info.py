@@ -9,21 +9,25 @@ __all__ = [
 
 
 class SchoolInfoParser(Parser):
+    """
+    A parser class to extract school information from provided data.
+    """
+
     @classmethod
     def parse(cls, data) -> SchoolInfo:
         """
+        Parse the school information from the given data.
 
-        :param data:
-        :return:
+        :param data: The data to parse the school information from.
+        :return: The parsed school information.
         """
         return cls._run_parsers(data.schoolInfo[1].row[0])
 
     @staticmethod
     def _parser1(r) -> SchoolInfo:
         """
-
-        :param r:
-        :return:
+        :param r: The object containing school information.
+        :return: An instance of the `SchoolInfo` class.
         """
         code = r.SD_SCHUL_CODE
         name = r.SCHUL_NM
@@ -65,9 +69,9 @@ class SchoolInfoParser(Parser):
             Purpose.NONE
         ))
         part_time = (
-            SchoolPartTime.DAY   if r.DGHT_SC_NM == "주간" else
-            SchoolPartTime.NIGHT if r.DGHT_SC_NM == "야간" else
-            SchoolPartTime.BOTH
+            SchoolTimeClassification.DAY   if r.DGHT_SC_NM == "주간" else
+            SchoolTimeClassification.NIGHT if r.DGHT_SC_NM == "야간" else
+            SchoolTimeClassification.BOTH
         )
         entrance_period = (
             EntrancePeriod.EARLY if r.ENE_BFE_SEHF_SC_NM == "전기" else
