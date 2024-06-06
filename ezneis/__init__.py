@@ -22,7 +22,7 @@ __all__ = [
     "R_GYEONGBUK",
     "R_GYEONGNAM",
     "R_JEJU",
-    "R_FORIENGER",
+    "R_FOREIGNER",
     "fetch",
     "fetch_all"
 ]
@@ -46,7 +46,7 @@ R_JEONNAM     = Region.JEONNAM      # noqa
 R_GYEONGBUK   = Region.GYEONGBUK    # noqa
 R_GYEONGNAM   = Region.GYEONGNAM    # noqa
 R_JEJU        = Region.JEJU         # noqa
-R_FORIENGER   = Region.FORIENGER    # noqa
+R_FOREIGNER   = Region.FOREIGNER    # noqa
 
 # default api instance
 _default_co_api   = CoAPI()
