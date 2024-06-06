@@ -1,56 +1,43 @@
 from typing import Tuple
 
 __all__ = [
-    "UnhandledError",
-    "NotExistError",
-    "SchoolNotExistError",
-    "AcademyNotExistError",
-    "DataNotExistError",
-    "ParseError"
+    "NotExistException",
+    "SchoolNotExistException",
+    "AcademyNotExistException",
+    "DataNotExistException",
+    "ParseException"
 ]
 
 
-class UnhandledError(Exception):
-    """
-
-    """
-    def __init__(self, exception: Exception):
-        """
-
-        :param exception:
-        """
-        super().__init__(exception)
-
-
-class NotExistError(Exception):
+class NotExistException(Exception):
     """
 
     """
     pass
 
 
-class SchoolNotExistError(NotExistError):
+class SchoolNotExistException(NotExistException):
     """
 
     """
     pass
 
 
-class AcademyNotExistError(NotExistError):
+class AcademyNotExistException(NotExistException):
     """
 
     """
     pass
 
 
-class DataNotExistError(NotExistError):
+class DataNotExistException(NotExistException):
     """
 
     """
     pass
 
 
-class ParseError(Exception):
+class ParseException(Exception):
     """
 
     """
