@@ -1,21 +1,31 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ezneis"
-version = "0.0.1"
+version = "0.0.1a0"
 authors = [
   { name="DuelitDev", email="jyoon07dev@gmail.com" },
 ]
-description = "A small example package"
+description = "ezneis: NEIS Open API fetch & parse library. / 나이스 API 파싱 라이브러리"
 readme = "README.md"
 requires-python = ">=3.8"
+keywords = [ "neis", "api", "neis-api", "parse", "asyncio" ]
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
 ]
 
 [project.urls]
 Homepage = "https://github.com/DuelitDev/ezneis"
-Issues = "https://github.com/DuelitDev/ezneis"
+Download = "https://github.com/DuelitDev/ezneis/tarball/master"
+Changelog = "https://github.com/DuelitDev/ezneis/releases"
+Documentation = "https://github.com/DuelitDev/ezneis/wiki"
+Issues = "https://github.com/DuelitDev/ezneis/issues"
