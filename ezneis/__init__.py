@@ -57,11 +57,11 @@ def fetch(name: str, key: str = "",
           region: Region = Region.UNSPECIFIED, **kwargs
           ) -> NEISOpenAPIData:
     """
-
-    :param name:
-    :param key:
-    :param region:
-    :return:
+    :param name: School or Academy name.
+    :param key: The API key used to authenticate the request.
+    :param region: The region of the school or academy.
+    :param kwargs: Additional parameters for fetching data.
+    :return: Fetched data from NEIS API.
     """
     return _default_sync_api.fetch(name, key, region, **kwargs)
 
@@ -70,11 +70,11 @@ async def fetch_async(name: str, key: str = "",
                       region: Region = Region.UNSPECIFIED, **kwargs
                       ) -> NEISOpenAPIData:
     """
-
-    :param name:
-    :param key:
-    :param region:
-    :return:
+    :param name: School or Academy name.
+    :param key: The API key used to authenticate the request.
+    :param region: The region of the school or academy.
+    :param kwargs: Additional parameters for fetching data.
+    :return: Fetched data from NEIS API.
     """
     return await _default_co_api.fetch(name, key, region, **kwargs)
 
@@ -83,11 +83,11 @@ def fetch_all(name: str, key: str = "",
               region: Region = Region.UNSPECIFIED, **kwargs
               ) -> Tuple[NEISOpenAPIData, ...]:
     """
-
-    :param name:
-    :param key:
-    :param region:
-    :return:
+    :param name: School or Academy name.
+    :param key: The API key used to authenticate the request.
+    :param region: The region of the school or academy.
+    :param kwargs: Additional parameters for fetching data.
+    :return: Fetched data from NEIS API.
     """
     return _default_sync_api.fetch_all(name, key, region, **kwargs)
 
@@ -96,10 +96,10 @@ async def fetch_all_async(name: str, key: str = "",
                           region: Region = Region.UNSPECIFIED, **kwargs
                           ) -> Tuple[NEISOpenAPIData, ...]:
     """
-
-    :param name:
-    :param key:
-    :param region:
-    :return:
+    :param name: School or Academy name.
+    :param key: The API key used to authenticate the request.
+    :param region: The region of the school or academy.
+    :param kwargs: Additional parameters for fetching data.
+    :return: Fetched data from NEIS API.
     """
     return await _default_co_api.fetch_all(name, key, region, **kwargs)
