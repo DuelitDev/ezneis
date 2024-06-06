@@ -2,7 +2,6 @@ from ezneis.util import *
 from ezneis.types import *
 from ezneis.parser import *
 from ezneis.exception import *
-from functools import lru_cache
 from neispy import Neispy
 from typing import Tuple
 import neispy.error as ne
@@ -17,6 +16,11 @@ _USED_API = None
 
 
 def _get_sync_api(*args, **kwargs):
+    """
+    :return: the instance of SyncNeispy that is currently being used.
+             If no instance exists, a new instance of SyncNeispy will be created
+             using the provided arguments and stored for future use.
+    """
     global _USED_API
     if not _USED_API:
         _USED_API = Neispy.sync(*args, **kwargs)
@@ -24,8 +28,12 @@ def _get_sync_api(*args, **kwargs):
 
 
 class SyncAPIFetch:
+    """
+    A utility class for fetching various types of information
+    from a school API synchronously.
+    """
+
     @staticmethod
-    @lru_cache(maxsize=1)
     def get_school_id(key: str, name: str, region: Region
                       ) -> Tuple[Tuple[str, Region], ...]:
         """
@@ -33,8 +41,8 @@ class SyncAPIFetch:
         Or it can be used to check if the code is valid.
 
         :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school.
         :return: Tuple of school codes.
         """
         api = _get_sync_api(KEY=key, pSize=DEFAULT_LIMIT)
@@ -44,22 +52,20 @@ class SyncAPIFetch:
             try:
                 data = api.schoolInfo(SCHUL_NM=name)
             except ne.DataNotFound:
-                raise SchoolNotExistError
+                raise SchoolNotExistException
         return tuple((row.SD_SCHUL_CODE, Region(row.ATPT_OFCDC_SC_CODE))
                      for row in data.schoolInfo[1].row
                      if (region == Region.UNSPECIFIED or
                          row.ATPT_OFCDC_SC_CODE == region.value))
 
     @staticmethod
-    @lru_cache(maxsize=1)
     def fetch_school_info(key: str, code: str, region: Region
                           ) -> SchoolInfo:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :return: A school info.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :return: An instance of `SchoolInfo`.
         """
         api = _get_sync_api(KEY=key, pSize=1)
         data = api.schoolInfo(
@@ -68,18 +74,16 @@ class SyncAPIFetch:
         return SchoolInfoParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     def fetch_meal(key: str, code: str, region: Region,
                    limit: int = DEFAULT_LIMIT, datetime: str = None,
                    ) -> Tuple[Meal, ...]:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: Tuple of meal.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format to fetch meals for.
+        :return: A tuple of `Meal` parsed from the API response.
         """
         if not datetime:
             datetime = _today_ymd_str()
@@ -94,18 +98,17 @@ class SyncAPIFetch:
         return SchoolMealParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     def fetch_schedule(key: str, code: str, region: Region,
                        limit: int = DEFAULT_LIMIT, datetime: str = None,
                        ) -> Tuple[SchoolSchedule, ...]:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: Tuple of school schedule.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format
+                         to fetch schedules for.
+        :return: A tuple of `SchoolSchedule` parsed from the API response.
         """
         if not datetime:
             datetime = _today_ym_str()
@@ -120,18 +123,17 @@ class SyncAPIFetch:
         return SchoolScheduleParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     def fetch_class(key: str, code: str, region: Region,
                     limit: int = DEFAULT_LIMIT, datetime: str = None,
                     ) -> Classroom:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: A classroom info.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format
+                         to fetch class info for.
+        :return: An instance of `Classroom` parsed from the API response.
         """
         if not datetime:
             datetime = _today_y_str()
@@ -143,21 +145,25 @@ class SyncAPIFetch:
                 AY=datetime)
         except ne.DataNotFound:
             return Classroom(())
-        return ClassroomParser.parse(data)
+        return ClassParser.parse(data)
 
 
 class CoAPIFetch:
+    """
+    A utility class for fetching various types of information
+    from a school API asynchronously.
+    """
+
     @staticmethod
-    @lru_cache(maxsize=1)
     async def get_school_id(key: str, name: str, region: Region
                             ) -> Tuple[Tuple[str, Region], ...]:
         """
-        Fetches the school code from school name asynchronously.
+        Fetches the school code from school name.
         Or it can be used to check if the code is valid.
 
         :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school.
         :return: Tuple of school codes.
         """
         api = Neispy(KEY=key, pSize=DEFAULT_LIMIT)
@@ -167,7 +173,7 @@ class CoAPIFetch:
             try:
                 data = await api.schoolInfo(SCHUL_NM=name)
             except ne.DataNotFound:
-                raise SchoolNotExistError
+                raise SchoolNotExistException
         await api.session.close()
         return tuple((row.SD_SCHUL_CODE, Region(row.ATPT_OFCDC_SC_CODE))
                      for row in data.schoolInfo[1].row
@@ -175,15 +181,13 @@ class CoAPIFetch:
                          row.ATPT_OFCDC_SC_CODE == region.value))
 
     @staticmethod
-    @lru_cache(maxsize=1)
     async def fetch_school_info(key: str, code: str, region: Region
                                 ) -> SchoolInfo:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :return: School info.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :return: An instance of `SchoolInfo`.
         """
         api = Neispy(KEY=key, pSize=1)
         data = await api.schoolInfo(
@@ -193,18 +197,16 @@ class CoAPIFetch:
         return SchoolInfoParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     async def fetch_meal(key: str, code: str, region: Region,
                          limit: int = DEFAULT_LIMIT, datetime: str = None,
                          ) -> Tuple[Meal, ...]:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: Tuple of school schedule.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format to fetch meals for.
+        :return: A tuple of `Meal` parsed from the API response.
         """
         if not datetime:
             datetime = _today_ymd_str()
@@ -221,18 +223,17 @@ class CoAPIFetch:
         return SchoolMealParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     async def fetch_schedule(key: str, code: str, region: Region,
                              limit: int = DEFAULT_LIMIT, datetime: str = None,
                              ) -> Tuple[SchoolSchedule, ...]:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: Tuple of school schedule.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format
+                         to fetch schedules for.
+        :return: A tuple of `SchoolSchedule` parsed from the API response.
         """
         if not datetime:
             datetime = _today_ym_str()
@@ -249,18 +250,17 @@ class CoAPIFetch:
         return SchoolScheduleParser.parse(data)
 
     @staticmethod
-    @lru_cache(maxsize=1)
     async def fetch_class(key: str, code: str, region: Region,
                           limit: int = DEFAULT_LIMIT, datetime: str = None,
                           ) -> Classroom:
         """
-
-        :param key: API key.
-        :param code: School code.
-        :param region: School region.
-        :param limit: Maxsize of results to fetch.
-        :param datetime:
-        :return: A classroom info.
+        :param key: The API key used to authenticate the request.
+        :param code: The code of the school to fetch information for.
+        :param region: The region of the school.
+        :param limit: The maximum number of meals to fetch.
+        :param datetime: The date in '[YYYY[MM[DD]]]' format
+                         to fetch class info for.
+        :return: An instance of `Classroom` parsed from the API response.
         """
         if not datetime:
             datetime = _today_y_str()
@@ -274,4 +274,4 @@ class CoAPIFetch:
             return Classroom(())
         finally:
             await api.session.close()
-        return ClassroomParser.parse(data)
+        return ClassParser.parse(data)

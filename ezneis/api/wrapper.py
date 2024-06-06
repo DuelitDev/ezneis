@@ -2,7 +2,6 @@ from asyncio import gather
 from ezneis.api.core import *
 from ezneis.types import *
 from ezneis.util import *
-from functools import lru_cache
 from typing import Tuple
 
 __all__ = [
@@ -12,19 +11,24 @@ __all__ = [
 
 
 class SyncAPI:
+    """
+
+    """
+
     @classmethod
-    @lru_cache(maxsize=1)
     def fetch(cls, name: str, key: str = "",
               region: Region = Region.UNSPECIFIED, *,
               no_check: bool = False, **kwargs
               ) -> NEISOpenAPIData:
         """
+        Fetches NEIS API data.
 
-        :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
-        :param no_check: Do not validate school name.
-        :return: A school data.
+        :param name: School or Academy name.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school or academy.
+        :param no_check: Whether to perform code check.
+        :param kwargs: Additional parameters for fetching data.
+        :return: Fetched data from NEIS API.
         """
         if not no_check:
             identifiers = SyncAPIFetch.get_school_id(key, name, region)
@@ -47,16 +51,17 @@ class SyncAPI:
         )
 
     @classmethod
-    @lru_cache(maxsize=1)
     def fetch_all(cls, name: str, key: str = "",
                   region: Region = Region.UNSPECIFIED, **kwargs
                   ) -> Tuple[NEISOpenAPIData, ...]:
         """
+        Fetches NEIS API data for all schools or academies.
 
-        :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
-        :return: A school data.
+        :param name: School or Academy name.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school or academy.
+        :param kwargs: Additional parameters for fetching data.
+        :return: Fetched data from NEIS API.
         """
         identifiers = SyncAPIFetch.get_school_id(key, name, region)
         temp = []
@@ -68,33 +73,33 @@ class SyncAPI:
 
 class CoAPI:
     @classmethod
-    @lru_cache(maxsize=1)
     async def fetch(cls, name: str, key: str = "",
                     region: Region = Region.UNSPECIFIED, *,
                     no_check: bool = False, **kwargs
                     ) -> NEISOpenAPIData:
         """
+        Fetches NEIS API data.
 
-        :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
-        :param no_check: Do not validate school name.
-        :return: A school data.
+        :param name: School or Academy name.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school or academy.
+        :param no_check: Whether to perform code check.
+        :param kwargs: Additional parameters for fetching data.
+        :return: Fetched data from NEIS API.
         """
         if not no_check:
             identifiers = await CoAPIFetch.get_school_id(key, name, region)
         else:
             identifiers = ((name, region),)
         c, r = identifiers[0]
-        _info_task = CoAPIFetch.fetch_school_info(key, c, r)
-        _meal_task = CoAPIFetch.fetch_meal(
-            key, c, r, **kwargs.get("meal", {}))
-        _schedule_task = CoAPIFetch.fetch_schedule(
-            key, c, r, **kwargs.get("schedule", {}))
-        _classroom_task = CoAPIFetch.fetch_class(
-            key, c, r, **kwargs.get("classroom", {}))
         _info, _meal, _schedule, _classroom = await gather(
-            _info_task, _meal_task, _schedule_task, _classroom_task
+            CoAPIFetch.fetch_school_info(key, c, r),
+            CoAPIFetch.fetch_meal(
+                key, c, r, **kwargs.get("meal", {})),
+            CoAPIFetch.fetch_schedule(
+                key, c, r, **kwargs.get("schedule", {})),
+            CoAPIFetch.fetch_class(
+                key, c, r, **kwargs.get("classroom", {}))
         )
         return SchoolData(
             info=_info,
@@ -104,16 +109,17 @@ class CoAPI:
         )
 
     @classmethod
-    @lru_cache(maxsize=1)
     async def fetch_all(cls, name: str, key: str = "",
                         region: Region = Region.UNSPECIFIED, **kwargs
                         ) -> Tuple[NEISOpenAPIData, ...]:
         """
+        Fetches NEIS API data for all schools or academies.
 
-        :param name: School name or code.
-        :param key: API key.
-        :param region: School region.
-        :return: A school data.
+        :param name: School or Academy name.
+        :param key: The API key used to authenticate the request.
+        :param region: The region of the school or academy.
+        :param kwargs: Additional parameters for fetching data.
+        :return: Fetched data from NEIS API.
         """
         identifiers = await CoAPIFetch.get_school_id(key, name, region)
         tasks = []
