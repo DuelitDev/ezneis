@@ -80,7 +80,7 @@ async def fetch_async(name: str, key: str = "",
 
 
 def fetch_all(name: str, key: str = "",
-              region: Region = Region.UNSPECIFIED
+              region: Region = Region.UNSPECIFIED, **kwargs
               ) -> Tuple[NEISOpenAPIData, ...]:
     """
 
@@ -89,4 +89,17 @@ def fetch_all(name: str, key: str = "",
     :param region:
     :return:
     """
-    return _default_sync_api.fetch_all(name, key, region)
+    return _default_sync_api.fetch_all(name, key, region, **kwargs)
+
+
+async def fetch_all_async(name: str, key: str = "",
+                          region: Region = Region.UNSPECIFIED, **kwargs
+                          ) -> Tuple[NEISOpenAPIData, ...]:
+    """
+
+    :param name:
+    :param key:
+    :param region:
+    :return:
+    """
+    return await _default_co_api.fetch_all(name, key, region, **kwargs)
