@@ -4,26 +4,24 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ezneis"
-version = "0.0.1a1"
+version = "0.1.1a0"
 authors = [
   { name="DuelitDev", email="jyoon07dev@gmail.com" },
 ]
 description = "ezneis: NEIS Open API fetch & parse library. / 나이스 API 파싱 라이브러리"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = [
-    "neispy ~= 5.0.2",
-    "pydantic ~= 2.7.3"
+    "requests ~= 2.32.3",
+    "aiohttp ~= 3.10.10",
 ]
 keywords = [ "neis", "api", "neis-api", "parse", "asyncio" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
 ]
 
