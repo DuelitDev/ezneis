@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class ServiceException(Exception):
     def __init__(self, code: str, message: str):
         self._code = code
