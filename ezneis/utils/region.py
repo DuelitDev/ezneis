@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from enum import StrEnum
+from enum import Enum
 
 
-class Region(StrEnum):
+class Region(Enum):
     """
     The Region class is an enumeration of different regions in Korea.
     Each region is represented by a value that corresponds to a code.

@@ -10,7 +10,7 @@ authors = [
 ]
 description = "ezneis: NEIS Open API fetch & parse library. / 나이스 API 파싱 라이브러리"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 dependencies = [
     "requests ~= 2.32.3",
     "aiohttp ~= 3.10.10",
