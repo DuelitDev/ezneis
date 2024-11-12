@@ -26,8 +26,6 @@ class FoundationType(Enum):
     """A public school."""
     PRIVATE     = auto()
     """A private school."""
-    UNSPECIFIED = auto()
-    """An unspecified type of school foundation."""
 
 
 class SchoolCategory(Enum):
@@ -147,7 +145,7 @@ class SchoolInfo:
     """The name of the school."""
     english_name: Optional[str]
     """The English name of the school."""
-    foundation_type: FoundationType
+    foundation_type: Optional[FoundationType]
     """The foundation type of the school."""
     school_category: SchoolCategory
     """The category of the school."""

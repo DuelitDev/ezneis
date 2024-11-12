@@ -4,6 +4,10 @@ from .common import Parser
 from ..models.school_info import *
 from ..utils.region import Region
 
+__all__ = [
+    "SchoolInfoParser"
+]
+
 
 class SchoolInfoParser(Parser):
     @classmethod
@@ -14,7 +18,7 @@ class SchoolInfoParser(Parser):
         match data["FOND_SC_NM"]:
             case "공립": foundation_type = FoundationType.PUBLIC
             case "사립": foundation_type = FoundationType.PRIVATE
-            case _:      foundation_type = FoundationType.UNSPECIFIED
+            case _:      foundation_type = None
         match data["SCHUL_KND_SC_NM"]:
             case "초등학교":         school_category = SchoolCategory.ELEMENTARY
             case "중학교":           school_category = SchoolCategory.MIDDLE
