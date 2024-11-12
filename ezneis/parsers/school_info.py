@@ -12,8 +12,8 @@ __all__ = [
 class SchoolInfoParser(Parser):
     @classmethod
     def from_json(cls, data: dict) -> SchoolInfo:
-        code = data["SD_SCHUL_CODE"]
-        name = data["SCHUL_NM"]
+        code         = data["SD_SCHUL_CODE"]
+        name         = data["SCHUL_NM"]
         english_name = data["ENG_SCHUL_NM"]
         match data["FOND_SC_NM"]:
             case "공립": foundation_type = FoundationType.PUBLIC
