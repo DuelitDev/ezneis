@@ -3,6 +3,15 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 
+__all__ = [
+    "Allergy",
+    "Dish",
+    "Meal",
+    "MealTime",
+    "Nutrient",
+    "Origin",
+]
+
 
 class Allergy(Enum):
     """
