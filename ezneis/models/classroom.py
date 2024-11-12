@@ -31,7 +31,7 @@ class DetailedCourseType(Enum):
     """
     Represents specific types of detailed courses within a school.
     """
-    STANDARD      = auto()
+    NORMAL        = auto()
     """Standard education."""
     VOCATIONAL    = auto()
     """Vocational education."""
