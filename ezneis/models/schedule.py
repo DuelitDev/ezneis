@@ -7,7 +7,7 @@ from typing import Optional, SupportsIndex
 __all__ = [
     "GradeCorrespondence",
     "ScheduleTime",
-    "ScheduleType",
+    "ScheduleCategory",
     "SchoolSchedule",
 ]
 
@@ -22,7 +22,7 @@ class ScheduleTime(Enum):
     """Represents a night schedule."""
 
 
-class ScheduleType(Enum):
+class ScheduleCategory(Enum):
     """
     Enumeration representing the category of a schedule.
     """
@@ -73,15 +73,15 @@ class SchoolSchedule:
     """
     year: int
     """The year of the event."""
-    time: Optional[ScheduleTime]
-    """The time classification of the event."""
     name: str
     """The name of the event."""
     description: Optional[str]
     """The description of the event."""
+    time: Optional[ScheduleTime]
+    """The time classification of the event."""
     correspondence: GradeCorrespondence
     """The model representing the grades to which the event corresponds."""
-    type: Optional[ScheduleType]
-    """The type of the event."""
+    category: Optional[ScheduleCategory]
+    """The category of the event."""
     date: date
     """The date of the event."""
