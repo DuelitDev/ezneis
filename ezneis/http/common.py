@@ -16,7 +16,7 @@ class Services(Enum):
     SCHOOL_INFO  = "schoolInfo"           # noqa
     SCHEDULE     = "SchoolSchedule"       # noqa
     MEAL         = "mealServiceDietInfo"  # noqa
-    CLASSES      = "classInfo"            # noqa
+    CLASSROOMS   = "classInfo"            # noqa
     TIMETABLE_E  = "elsTimetable"         # noqa
     TIMETABLE_M  = "misTimetable"         # noqa
     TIMETABLE_H  = "hisTimetable"         # noqa
