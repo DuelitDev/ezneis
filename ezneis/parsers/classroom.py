@@ -3,6 +3,10 @@ from uuid import uuid4
 from .common import Parser
 from ..models.classroom import *
 
+__all__ = [
+    "ClassroomParser"
+]
+
 
 class ClassroomParser(Parser):
     @classmethod
