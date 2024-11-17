@@ -52,7 +52,7 @@ def ttl_cache(ttl: int, maxsize: int = 64):
         @wraps(func)
         async def async_wrapper(*args, **kwargs):
             nonlocal ttl
-            t_args = (args, kwargs)
+            t_args = deep_freeze([args, kwargs])
             # cache disabled
             if ttl == 0:
                 return await func(*args, **kwargs)
