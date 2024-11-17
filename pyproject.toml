@@ -8,14 +8,14 @@ version = "0.1.1a0"
 authors = [
   { name="DuelitDev", email="jyoon07dev@gmail.com" },
 ]
-description = "ezneis: NEIS Open API fetch & parse library. / 나이스 API 파싱 라이브러리"
+description = "ezneis: 나이스 API 파싱 라이브러리"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "requests ~= 2.32.3",
     "aiohttp ~= 3.10.10",
 ]
-keywords = [ "neis", "api", "neis-api", "parse", "asyncio" ]
+keywords = [ "나이스", "neis", "api", "neis-api", "parse", "asyncio" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
