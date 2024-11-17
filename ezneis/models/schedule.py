@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
 from datetime import date
-from enum import Enum, auto
+from enum import Enum
 from typing import Optional, SupportsIndex
 
 __all__ = [
@@ -16,9 +16,9 @@ class ScheduleTime(Enum):
     """
     Enumeration representing the time classification of a schedule.
     """
-    DAY   = auto()
+    DAY   = "DAY"
     """Represents a day schedule."""
-    NIGHT = auto()
+    NIGHT = "NIGHT"
     """Represents a night schedule."""
 
 
@@ -26,9 +26,9 @@ class ScheduleCategory(Enum):
     """
     Enumeration representing the category of a schedule.
     """
-    DAY_OFF = auto()
+    DAY_OFF = "DAY_OFF"
     """Represents a day off event."""
-    HOLIDAY = auto()
+    HOLIDAY = "HOLIDAY"
     """Represents a holiday event."""
 
 

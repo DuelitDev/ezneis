@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
-from enum import Enum, auto
+from enum import Enum
 from typing import Optional
 
 __all__ = [
@@ -15,15 +15,15 @@ class CourseType(Enum):
     """
     Represents different levels of school courses.
     """
-    PRESCHOOL  = auto()
+    PRESCHOOL  = "PRESCHOOL"
     """Preschool education."""
-    ELEMENTARY = auto()
+    ELEMENTARY = "ELEMENTARY"
     """Elementary school education."""
-    MIDDLE     = auto()
+    MIDDLE     = "MIDDLE"
     """Middle school education."""
-    HIGH       = auto()
+    HIGH       = "HIGH"
     """High school education."""
-    SPECIALITY = auto()
+    SPECIALITY = "SPECIALITY"
     """Specialized courses not falling under traditional levels."""
 
 
@@ -31,37 +31,37 @@ class DetailedCourseType(Enum):
     """
     Represents specific types of detailed courses within a school.
     """
-    NORMAL        = auto()
+    NORMAL        = "NORMAL"
     """Standard education."""
-    VOCATIONAL    = auto()
+    VOCATIONAL    = "VOCATIONAL"
     """Vocational education."""
-    SPECIALIZED   = auto()
+    SPECIALIZED   = "SPECIALIZED"
     """Specialized education."""
-    INTERNATIONAL = auto()
+    INTERNATIONAL = "INTERNATIONAL"
     """International curriculum."""
-    BUSINESS      = auto()
+    BUSINESS      = "BUSINESS"
     """Business education."""
-    COMMERCE      = auto()
+    COMMERCE      = "COMMERCE"
     """Commerce education."""
-    TECHNICAL     = auto()
+    TECHNICAL     = "TECHNICAL"
     """Technical education."""
-    AGRICULTURE   = auto()
+    AGRICULTURE   = "AGRICULTURE"
     """Agriculture-focused education."""
-    FISHERIES     = auto()
+    FISHERIES     = "FISHERIES"
     """Fisheries-related courses."""
-    INTEGRATED    = auto()
+    INTEGRATED    = "INTEGRATED"
     """Integrated education programs."""
-    LANGUAGE      = auto()
+    LANGUAGE      = "LANGUAGE"
     """Language-focused education."""
-    SCIENCE       = auto()
+    SCIENCE       = "SCIENCE"
     """Science-focused education."""
-    PHYSICAL      = auto()
+    PHYSICAL      = "PHYSICAL"
     """Physical education."""
-    ART           = auto()
+    ART           = "ART"
     """Art-focused education."""
-    ALTERNATIVE   = auto()
+    ALTERNATIVE   = "ALTERNATIVE"
     """Alternative education programs."""
-    TRAINING      = auto()
+    TRAINING      = "TRAINING"
     """Training-specific courses."""
 
 
@@ -69,9 +69,9 @@ class ClassSchedule(Enum):
     """
     Represents the classification of a class based on timing.
     """
-    DAY   = auto()
+    DAY   = "DAY"
     """Daytime classes."""
-    NIGHT = auto()
+    NIGHT = "NIGHT"
     """Nighttime classes."""
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
 from datetime import date
-from enum import Enum, auto
+from enum import Enum
 from typing import Optional
 from ..utils.region import Region
 
@@ -22,9 +22,9 @@ class FoundationType(Enum):
     """
     Types of school foundations.
     """
-    PUBLIC      = auto()
+    PUBLIC      = "PUBLIC"
     """A public school."""
-    PRIVATE     = auto()
+    PRIVATE     = "PRIVATE"
     """A private school."""
 
 
@@ -32,25 +32,25 @@ class SchoolCategory(Enum):
     """
     Types of schools.
     """
-    ELEMENTARY = auto()
+    ELEMENTARY = "ELEMENTARY"
     """An elementary school."""
-    MIDDLE     = auto()
+    MIDDLE     = "MIDDLE"
     """A middle school."""
-    HIGH       = auto()
+    HIGH       = "HIGH"
     """A high school."""
-    SEC_MID    = auto()
+    SEC_MID    = "SEC_MID"
     """An open secondary middle school."""
-    SEC_HIGH   = auto()
+    SEC_HIGH   = "SEC_HIGH"
     """An open secondary high school."""
-    MISC_ELE   = auto()
+    MISC_ELE   = "MISC_ELE"
     """A miscellaneous elementary school."""
-    MISC_MID   = auto()
+    MISC_MID   = "MISC_MID"
     """A miscellaneous middle school."""
-    MISC_HIGH  = auto()
+    MISC_HIGH  = "MISC_HIGH"
     """A miscellaneous high school."""
-    SPECIAL    = auto()
+    SPECIAL    = "SPECIAL"
     """A special school."""
-    OTHERS     = auto()
+    OTHERS     = "OTHERS"
     """Other types of schools not listed."""
 
 
@@ -58,9 +58,9 @@ class HighSchoolCategory(Enum):
     """
     Types of high schools.
     """
-    NORMAL     = auto()
+    NORMAL     = "NORMAL"
     """A normal high school."""
-    VOCATIONAL = auto()
+    VOCATIONAL = "VOCATIONAL"
     """A vocational high school."""
 
 
@@ -68,15 +68,15 @@ class HighSchoolSubtype(Enum):
     """
     Subtypes of high schools.
     """
-    NORMAL          = auto()
+    NORMAL          = "NORMAL"
     """A normal high school."""
-    SPECIALIZED     = auto()
+    SPECIALIZED     = "SPECIALIZED"
     """A specialized high school."""
-    SPECIAL_PURPOSE = auto()
+    SPECIAL_PURPOSE = "SPECIAL_PURPOSE"
     """A special purpose high school."""
-    AUTONOMOUS      = auto()
+    AUTONOMOUS      = "AUTONOMOUS"
     """An autonomous high school."""
-    OTHERS          = auto()
+    OTHERS          = "OTHERS"
     """Other types of high schools not listed."""
 
 
@@ -84,17 +84,17 @@ class SchoolPurpose(Enum):
     """
     Primary purposes of schools.
     """
-    INTERNATIONAL = auto()
+    INTERNATIONAL = "INTERNATIONAL"
     """A school with an international focus."""
-    PHYSICAL      = auto()
+    PHYSICAL      = "PHYSICAL"
     """A school with a focus on physical education."""
-    ART           = auto()
+    ART           = "ART"
     """A school with an art focus."""
-    SCIENCE       = auto()
+    SCIENCE       = "SCIENCE"
     """A school with a science focus."""
-    LANGUAGE      = auto()
+    LANGUAGE      = "LANGUAGE"
     """A school with a language focus."""
-    INDUSTRY      = auto()
+    INDUSTRY      = "INDUSTRY"
     """A school with an industry focus."""
 
 
@@ -102,11 +102,11 @@ class SchoolTiming(Enum):
     """
     School operational times.
     """
-    DAY   = auto()
+    DAY   = "DAY"
     """Operates during the daytime."""
-    NIGHT = auto()
+    NIGHT = "NIGHT"
     """Operates during the nighttime."""
-    BOTH  = auto()
+    BOTH  = "BOTH"
     """Operates during both daytime and nighttime."""
 
 
@@ -114,11 +114,11 @@ class AdmissionPeriod(Enum):
     """
     School admission periods.
     """
-    EARLY = auto()
+    EARLY = "EARLY"
     """Early admission period."""
-    LATE  = auto()
+    LATE  = "LATE"
     """Late admission period."""
-    BOTH  = auto()
+    BOTH  = "BOTH"
     """Both early and late admission periods."""
 
 
@@ -126,11 +126,11 @@ class GenderComposition(Enum):
     """
     Gender composition of the students.
     """
-    MIXED      = auto()
+    MIXED      = "MIXED"
     """A mixed-gender school."""
-    BOYS_ONLY  = auto()
+    BOYS_ONLY  = "BOYS_ONLY"
     """A boys-only school."""
-    GIRLS_ONLY = auto()
+    GIRLS_ONLY = "GIRLS_ONLY"
     """A girls-only school."""
 
 
