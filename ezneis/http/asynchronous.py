@@ -73,7 +73,7 @@ class AsyncSession:
                 remaining -= len(row)
                 return row
 
-        if hint is None:
+        if hint is not None:
             pages = (remaining // self._maximum_req
                      + int(remaining % self._maximum_req != 0))
             tasks = [task(p) for p in range(1, pages + 1)]
