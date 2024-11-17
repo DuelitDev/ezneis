@@ -60,29 +60,20 @@ class AsyncSchoolData:
     async def load_schedules(self, reload=False):
         if self._schedules is not None and not reload:
             return
-        temp = await self._wrapper.get_schedules(self._code, self._region)
-        if not temp:
-            # TODO: Data Not Found.
-            raise "No Data."
-        self._schedules = temp
+        self._schedules = await self._wrapper.get_schedules(
+            self._code, self._region)
 
     async def load_meals(self, reload=False):
         if self._meals is not None and not reload:
             return
-        temp = await self._wrapper.get_meals(self._code, self._region)
-        if not temp:
-            # TODO: Data Not Found.
-            raise "No Data."
-        self._meals = MealsTuple(temp)
+        self._meals = MealsTuple(await self._wrapper.get_meals(
+            self._code, self._region))
 
     async def load_classrooms(self, reload=False):
         if self._classrooms is not None and not reload:
             return
-        temp = await self._wrapper.get_classrooms(self._code, self._region)
-        if not temp:
-            # TODO: Data Not Found.
-            raise "No Data."
-        self._classrooms = ClassroomsTuple(temp)
+        self._classrooms = ClassroomsTuple(await self._wrapper.get_classrooms(
+            self._code, self._region))
 
     @AsyncProperty
     async def info(self) -> SchoolInfo:
