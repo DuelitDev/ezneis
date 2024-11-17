@@ -2,15 +2,10 @@
 
 
 __all__ = [
-    "APIKeyMissingException",
     "InternalServiceError",
     "ServiceUnavailableError",
+    "SessionClosedException",
 ]
-
-
-class APIKeyMissingException(Exception):
-    def __str__(self) -> str:
-        return "No API key was supplied."
 
 
 class InternalServiceError(Exception):
@@ -40,3 +35,8 @@ class ServiceUnavailableError(Exception):
     @property
     def url(self) -> str:
         return self._url
+
+
+class SessionClosedException(IOError):
+    def __str__(self) -> str:
+        return "The session is closed."
