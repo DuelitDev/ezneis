@@ -4,12 +4,16 @@ from requests.compat import urljoin
 
 __all__ = [
     "BASE_URL",
+    "MAX_CACHE",
+    "TIME_TO_LIVE",
     "Services",
     "urljoin",
 ]
 
 
 BASE_URL = "https://open.neis.go.kr/hub/"
+MAX_CACHE = 64
+TIME_TO_LIVE = 86400
 
 
 class Services(Enum):

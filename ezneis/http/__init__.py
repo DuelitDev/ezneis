@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-from .synchronous import SyncRequest
-from .asynchronous import AsyncRequest
+from .synchronous import SyncSession
+from .asynchronous import AsyncSession
 from .common import Services

@@ -4,36 +4,43 @@ from __future__ import annotations
 import aiohttp
 import asyncio
 from typing import Optional
-from .common import BASE_URL, Services, urljoin
-from ..exceptions import (APIKeyMissingException, InternalServiceError,
-                          ServiceUnavailableError)
+from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
+from ..exceptions import (InternalServiceError, ServiceUnavailableError,
+                          SessionClosedException)
+from ..utils.ttl_cache import ttl_cache
 
 __all__ = [
-    "AsyncRequest",
+    "AsyncSession",
 ]
 
 
-class AsyncRequest:
-    def __init__(self, key: Optional[str] = None):
-        if not key:
-            raise APIKeyMissingException
+class AsyncSession:
+    def __init__(self, key: str):
         self._key = key
         self._maximum_req = 5 if not key else 1000
         self._session = aiohttp.ClientSession()
+        self._closed = False
 
     def __del__(self):
         if not self._session.closed:
             loop = asyncio.get_running_loop()
             asyncio.run_coroutine_threadsafe(self.close(), loop)
 
-    async def __aenter__(self) -> AsyncRequest:
+    async def __aenter__(self) -> AsyncSession:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
 
+    @property
+    def closed(self) -> bool:
+        return self._session.closed and self._closed
+
+    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE)
     async def get(self, service: Services, *, hint: Optional[int] = None,
                   **kwargs) -> list[dict]:
+        if self.closed:
+            raise SessionClosedException
         url = urljoin(BASE_URL, service.value)
         params = {
             **kwargs,
@@ -53,8 +60,12 @@ class AsyncRequest:
                     raise ServiceUnavailableError(url)
                 json = await response.json()
                 if service.value not in json:
-                    error = json["RESULT"]
-                    raise InternalServiceError(error["CODE"], error["MESSAGE"])
+                    result = json["RESULT"]
+                    code, message = result["CODE"], result["MESSAGE"]
+                    # TODO: InternalServiceError code Enum.
+                    if code == "INFO-200":
+                        return []
+                    raise InternalServiceError(code, message)
                 head, data = json[service.value]
                 if remaining is None:
                     remaining = head["head"][0]["list_total_count"]
@@ -80,3 +91,4 @@ class AsyncRequest:
     async def close(self):
         if self._session and not self._session.closed:
             await self._session.close()
+            self._closed = True

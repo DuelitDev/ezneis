@@ -3,34 +3,40 @@ from __future__ import annotations
 
 import requests
 from typing import Optional
-from .common import BASE_URL, Services, urljoin
-from ..exceptions import (APIKeyMissingException, InternalServiceError,
-                          ServiceUnavailableError)
+from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
+from ..exceptions import InternalServiceError, ServiceUnavailableError, SessionClosedException
+from ..utils.ttl_cache import ttl_cache
 
 __all__ = [
-    "SyncRequest",
+    "SyncSession",
 ]
 
 
-class SyncRequest:
-    def __init__(self, key: Optional[str] = None):
-        if not key:
-            raise APIKeyMissingException
+class SyncSession:
+    def __init__(self, key: str):
         self._key = key
         self._maximum_req = 5 if not key else 1000
         self._session = requests.Session()
+        self._closed = False
 
     def __del__(self):
         self.close()
 
-    def __enter__(self) -> SyncRequest:
+    def __enter__(self) -> SyncSession:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
+    @property
+    def closed(self) -> bool:
+        return self._closed
+
+    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE)
     def get(self, service: Services, *, hint: Optional[int] = None,
             **kwargs) -> list[dict]:
+        if self.closed:
+            raise SessionClosedException
         url = urljoin(BASE_URL, service.value)
         params = {
             **kwargs,
@@ -49,7 +55,11 @@ class SyncRequest:
             json = response.json()
             if service.value not in json:
                 result = json["RESULT"]
-                raise InternalServiceError(result["CODE"], result["MESSAGE"])
+                code, message = result["CODE"], result["MESSAGE"]
+                # TODO: InternalServiceError code Enum.
+                if code == "INFO-200":
+                    break
+                raise InternalServiceError(code, message)
             head, data = json[service.value]
             if remaining is None:
                 remaining = head["head"][0]["list_total_count"]
@@ -60,3 +70,4 @@ class SyncRequest:
     def close(self):
         if self._session:
             self._session.close()
+            self._closed = True
