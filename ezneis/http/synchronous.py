@@ -4,7 +4,8 @@ from __future__ import annotations
 import requests
 from typing import Optional
 from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
-from ..exceptions import InternalServiceError, ServiceUnavailableError, SessionClosedException
+from ..exceptions import (InternalServiceError, ServiceUnavailableError,
+                          SessionClosedException)
 from ..utils.ttl_cache import ttl_cache
 
 __all__ = [
