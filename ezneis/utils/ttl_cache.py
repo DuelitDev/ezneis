@@ -9,6 +9,14 @@ __all__ = [
 ]
 
 
+def deep_freeze(value):
+    if isinstance(value, dict):
+        return tuple((key, deep_freeze(val)) for key, val in value.items())
+    elif isinstance(value, (list, set)):
+        return tuple(deep_freeze(x) for x in value)
+    return value
+
+
 def ttl_cache(ttl: int, maxsize: int = 64):
     def decorator(func):
         nonlocal ttl
@@ -17,7 +25,7 @@ def ttl_cache(ttl: int, maxsize: int = 64):
         @wraps(func)
         def sync_wrapper(*args, **kwargs):
             nonlocal ttl
-            t_args = (args, kwargs)
+            t_args = deep_freeze([args, kwargs])
             # cache disabled
             if ttl == 0:
                 return func(*args, **kwargs)
