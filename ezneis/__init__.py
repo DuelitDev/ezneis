@@ -10,7 +10,7 @@ def fetch_school(key: str, name: str, region: Optional[Region] = None
                  ) -> SyncSchoolData:
     with SyncSession(key) as session:
         wrapper = SyncWrapper(session)
-        info = wrapper.get_school_info(name, region)
+        info = wrapper.get_school_info(name, region, hint=1)
         if not info:
             # TODO: Data not found.
             raise "No Data."
@@ -30,7 +30,7 @@ async def fetch_school_async(key: str, name: str,
                              ) -> AsyncSchoolData:
     async with AsyncSession(key) as session:
         wrapper = AsyncWrapper(session)
-        info = await wrapper.get_school_info(name, region)
+        info = await wrapper.get_school_info(name, region, hint=1)
         if not info:
             # TODO: Data not found.
             raise "No Data."
