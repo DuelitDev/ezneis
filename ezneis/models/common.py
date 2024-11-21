@@ -16,3 +16,8 @@ class Timing(Enum):
     """Operates during the nighttime."""
     BOTH  = "BOTH"
     """Operates during both daytime and nighttime."""
+
+    def __contains__(self, item):
+        if self is Timing.BOTH:
+            return True
+        return item == self
