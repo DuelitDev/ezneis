@@ -3,23 +3,13 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 from typing import Optional, SupportsIndex
+from .common import Timing
 
 __all__ = [
     "GradeCorrespondence",
-    "ScheduleTime",
     "ScheduleCategory",
     "SchoolSchedule",
 ]
-
-
-class ScheduleTime(Enum):
-    """
-    Enumeration representing the time classification of a schedule.
-    """
-    DAY   = "DAY"
-    """Represents a day schedule."""
-    NIGHT = "NIGHT"
-    """Represents a night schedule."""
 
 
 class ScheduleCategory(Enum):
@@ -77,7 +67,7 @@ class SchoolSchedule:
     """The name of the event."""
     description: Optional[str]
     """The description of the event."""
-    time: Optional[ScheduleTime]
+    time: Optional[Timing]
     """The time classification of the event."""
     correspondence: GradeCorrespondence
     """The model representing the grades to which the event corresponds."""

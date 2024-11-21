@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 from typing import Optional
+from .common import Timing
 from ..utils.region import Region
 
 __all__ = [
@@ -14,7 +15,6 @@ __all__ = [
     "SchoolCategory",
     "SchoolInfo",
     "SchoolPurpose",
-    "SchoolTiming",
 ]
 
 
@@ -98,18 +98,6 @@ class SchoolPurpose(Enum):
     """A school with an industry focus."""
 
 
-class SchoolTiming(Enum):
-    """
-    School operational times.
-    """
-    DAY   = "DAY"
-    """Operates during the daytime."""
-    NIGHT = "NIGHT"
-    """Operates during the nighttime."""
-    BOTH  = "BOTH"
-    """Operates during both daytime and nighttime."""
-
-
 class AdmissionPeriod(Enum):
     """
     School admission periods.
@@ -155,7 +143,7 @@ class SchoolInfo:
     """The subtype of the high school if applicable."""
     purpose: Optional[SchoolPurpose]
     """The primary purpose of the school."""
-    timing: SchoolTiming
+    timing: Timing
     """The operational times of the school."""
     admission_period: AdmissionPeriod
     """The admission period of the school."""

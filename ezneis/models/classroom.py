@@ -2,9 +2,9 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
+from .common import Timing
 
 __all__ = [
-    "ClassSchedule",
     "Classroom",
     "CourseType",
     "DetailedCourseType",
@@ -65,16 +65,6 @@ class DetailedCourseType(Enum):
     """Training-specific courses."""
 
 
-class ClassSchedule(Enum):
-    """
-    Represents the classification of a class based on timing.
-    """
-    DAY   = "DAY"
-    """Daytime classes."""
-    NIGHT = "NIGHT"
-    """Nighttime classes."""
-
-
 @dataclass(frozen=True)
 class Classroom:
     """
@@ -92,5 +82,5 @@ class Classroom:
     """The type of course."""
     course_detail: Optional[DetailedCourseType]
     """The detailed type of course."""
-    timing: Optional[ClassSchedule]
+    timing: Optional[Timing]
     """The time classification of the class."""
