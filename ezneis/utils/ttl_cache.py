@@ -22,15 +22,15 @@ def _deep_freeze(value: dict | list | set):
     :return: 해시 가능한 형태로 변환된 입력 값.
     """
     if isinstance(value, dict):
-        return tuple((key, _deep_freeze(val)) for key, val in value.items())
+        return frozenset((key, _deep_freeze(val)) for key, val in value.items())
     elif isinstance(value, (list, set)):
-        return tuple(_deep_freeze(x) for x in value)
+        return frozenset(_deep_freeze(x) for x in value)
     return value
 
 
 # noinspection SpellCheckingInspection
 # PyCharm IDE의 오탈자 검사 기능을 무시
-def ttl_cache(ttl: int, maxsize: int = 64):
+def ttl_cache(ttl: int, maxsize: int = 64, is_method: bool = False):
     """
     TTL(Time-To-Live) 캐시를 구현한 데코레이터입니다.
 
@@ -39,21 +39,26 @@ def ttl_cache(ttl: int, maxsize: int = 64):
 
     또한, 최대 캐시 크기를 설정하여 메모리 사용을 제한할 수 있습니다.
 
+    마지막으로, 클래스의 메소드인 경우 args의 첫번째를 생략합니다.
+
     이 데코레이터는 동기 및 비동기 함수 모두에 사용할 수 있습니다.
 
     :param ttl: 캐시의 유효 기간(초), 0일 경우 캐싱이 비활성화됩니다.
     :param maxsize: 캐시가 저장될 최대 스택 크기.
+    :param is_method: 데코레이팅하는 함수가 클래스의 메소드인지 여부.
     :return: Time-To-Live 캐시 데코레이터.
     """
     def decorator(func):
-        nonlocal ttl
         cache = OrderedDict()
 
         @wraps(func)
         def sync_wrapper(*args, **kwargs):
-            nonlocal ttl
             # 파라미터를 키로 사용하기 위해 해시 가능하도록 변환
-            t_args = _deep_freeze([args, kwargs])
+            if is_method:
+                # 클래스 메소드인 경우 args 첫번째 생략
+                t_args = _deep_freeze([args[1:], kwargs])
+            else:
+                t_args = _deep_freeze([args, kwargs])
             # 캐시가 비활성화된 경우, 함수 실행 및 결과 반환
             if ttl == 0:
                 return func(*args, **kwargs)
