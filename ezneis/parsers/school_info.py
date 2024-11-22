@@ -50,9 +50,9 @@ class SchoolInfoParser(Parser):
             case "외국어계열": purpose = SchoolPurpose.LANGUAGE
             case _:            purpose = SchoolPurpose.INDUSTRY
         match data["DGHT_SC_NM"]:
-            case "주간": timing = SchoolTiming.DAY
-            case "야간": timing = SchoolTiming.NIGHT
-            case _:      timing = SchoolTiming.BOTH
+            case "주간": timing = Timing.DAY
+            case "야간": timing = Timing.NIGHT
+            case _:      timing = Timing.BOTH
         match data["ENE_BFE_SEHF_SC_NM"]:
             case "전기": admission_period = AdmissionPeriod.EARLY
             case "후기": admission_period = AdmissionPeriod.LATE

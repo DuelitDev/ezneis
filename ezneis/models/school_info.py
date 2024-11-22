@@ -7,14 +7,15 @@ from .common import Timing
 from ..utils.region import Region
 
 __all__ = [
-    "AdmissionPeriod",
+    "Timing",
     "FoundationType",
-    "GenderComposition",
+    "SchoolCategory",
     "HighSchoolCategory",
     "HighSchoolSubtype",
-    "SchoolCategory",
-    "SchoolInfo",
     "SchoolPurpose",
+    "AdmissionPeriod",
+    "GenderComposition",
+    "SchoolInfo",
 ]
 
 

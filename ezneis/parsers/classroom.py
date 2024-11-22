@@ -49,8 +49,8 @@ class ClassroomParser(Parser):
             case "공동실습소": course_detail = DetailedCourseType.TRAINING
             case _:            course_detail = None
         match data["DGHT_CRSE_SC_NM"]:
-            case "주간": timing = ClassSchedule.DAY
-            case "야간": timing = ClassSchedule.NIGHT
+            case "주간": timing = Timing.DAY
+            case "야간": timing = Timing.NIGHT
             case _:      timing = None
         return Classroom(
             year=year,

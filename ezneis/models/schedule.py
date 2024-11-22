@@ -6,8 +6,9 @@ from typing import Optional, SupportsIndex
 from .common import Timing
 
 __all__ = [
-    "GradeCorrespondence",
+    "Timing",
     "ScheduleCategory",
+    "GradeCorrespondence",
     "SchoolSchedule",
 ]
 

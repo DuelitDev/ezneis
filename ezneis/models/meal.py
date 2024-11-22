@@ -5,11 +5,11 @@ from enum import Enum
 
 __all__ = [
     "Allergy",
-    "Dish",
-    "Meal",
     "MealTime",
+    "Dish",
     "Nutrient",
     "Origin",
+    "Meal",
 ]
 
 

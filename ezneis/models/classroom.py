@@ -5,9 +5,10 @@ from typing import Optional
 from .common import Timing
 
 __all__ = [
-    "Classroom",
+    "Timing",
     "CourseType",
     "DetailedCourseType",
+    "Classroom",
 ]
 
 
