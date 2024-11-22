@@ -2,86 +2,54 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
-from .common import Timing
+from .common import Timing, Department
 
 __all__ = [
     "Timing",
+    "Department",
     "CourseType",
-    "DetailedCourseType",
     "Classroom",
 ]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class CourseType(Enum):
     """
-    Represents different levels of school courses.
+    학교 과정의 유형을 나타내는 열거형입니다.
     """
     PRESCHOOL  = "PRESCHOOL"
-    """Preschool education."""
+    """유치원 과정입니다."""
     ELEMENTARY = "ELEMENTARY"
-    """Elementary school education."""
+    """초등학교 과정입니다."""
     MIDDLE     = "MIDDLE"
-    """Middle school education."""
+    """중학교 과정입니다."""
     HIGH       = "HIGH"
-    """High school education."""
+    """고등학교 과정입니다."""
     SPECIALITY = "SPECIALITY"
-    """Specialized courses not falling under traditional levels."""
+    """특수학교 과정입니다."""
 
 
-class DetailedCourseType(Enum):
-    """
-    Represents specific types of detailed courses within a school.
-    """
-    NORMAL        = "NORMAL"
-    """Standard education."""
-    VOCATIONAL    = "VOCATIONAL"
-    """Vocational education."""
-    SPECIALIZED   = "SPECIALIZED"
-    """Specialized education."""
-    INTERNATIONAL = "INTERNATIONAL"
-    """International curriculum."""
-    BUSINESS      = "BUSINESS"
-    """Business education."""
-    COMMERCE      = "COMMERCE"
-    """Commerce education."""
-    TECHNICAL     = "TECHNICAL"
-    """Technical education."""
-    AGRICULTURE   = "AGRICULTURE"
-    """Agriculture-focused education."""
-    FISHERIES     = "FISHERIES"
-    """Fisheries-related courses."""
-    INTEGRATED    = "INTEGRATED"
-    """Integrated education programs."""
-    LANGUAGE      = "LANGUAGE"
-    """Language-focused education."""
-    SCIENCE       = "SCIENCE"
-    """Science-focused education."""
-    PHYSICAL      = "PHYSICAL"
-    """Physical education."""
-    ART           = "ART"
-    """Art-focused education."""
-    ALTERNATIVE   = "ALTERNATIVE"
-    """Alternative education programs."""
-    TRAINING      = "TRAINING"
-    """Training-specific courses."""
-
-
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Classroom:
     """
-    Represents information about a class.
+    학급 정보를 나타내는 데이터 클래스입니다.
     """
     year: int
-    """The year the class is conducted."""
+    """학년도"""
     grade: int
-    """The grade level of the class."""
+    """학년"""
     name: Optional[str]
-    """The name of the class."""
-    department: Optional[str]
-    """The department offering the class."""
+    """학급명"""
+    major: Optional[str]
+    """학과명"""
     course: CourseType
-    """The type of course."""
-    course_detail: Optional[DetailedCourseType]
-    """The detailed type of course."""
+    """학교과정명"""
+    department: Optional[Department]
+    """계열명"""
     timing: Optional[Timing]
-    """The time classification of the class."""
+    """주야과정명"""
