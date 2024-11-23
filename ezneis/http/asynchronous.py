@@ -4,7 +4,7 @@ from __future__ import annotations
 import aiohttp
 import asyncio
 from typing import Optional
-from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
+from .common import MAX_CACHE, TIME_TO_LIVE, Services, urljoin
 from ..exceptions import (InternalServiceError, ServiceUnavailableError,
                           SessionClosedException)
 from ..utils.ttl_cache import ttl_cache
@@ -36,12 +36,12 @@ class AsyncSession:
     def closed(self) -> bool:
         return self._session.closed and self._closed
 
-    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE)
+    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE, is_method=True)
     async def get(self, service: Services, *, hint: Optional[int] = None,
                   **kwargs) -> list[dict]:
         if self.closed:
             raise SessionClosedException
-        url = urljoin(BASE_URL, service.value)
+        url = service.value
         params = {
             **kwargs,
             "KEY": self._key,

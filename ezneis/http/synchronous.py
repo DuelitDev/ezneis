@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import requests
 from typing import Optional
-from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
+from .common import MAX_CACHE, TIME_TO_LIVE, Services, urljoin
 from ..exceptions import (InternalServiceError, ServiceUnavailableError,
                           SessionClosedException)
 from ..utils.ttl_cache import ttl_cache
@@ -33,12 +33,12 @@ class SyncSession:
     def closed(self) -> bool:
         return self._closed
 
-    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE)
+    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE, is_method=True)
     def get(self, service: Services, *, hint: Optional[int] = None,
             **kwargs) -> list[dict]:
         if self.closed:
             raise SessionClosedException
-        url = urljoin(BASE_URL, service.value)
+        url = service.value
         params = {
             **kwargs,
             "KEY": self._key,
@@ -50,6 +50,7 @@ class SyncSession:
         buffer = []
         remaining = hint
         while remaining is None or remaining - len(buffer) > 0:
+            print("REQ: ", url)
             response = self._session.get(url, params=params)
             if response.status_code != 200:
                 raise ServiceUnavailableError(url)
