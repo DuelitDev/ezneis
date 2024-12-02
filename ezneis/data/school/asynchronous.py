@@ -2,6 +2,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 from .common import MealsTuple, ClassroomsTuple
+from ...exceptions import DataNotFoundException
 from ...http.asynchronous import AsyncSession
 from ...models import SchoolInfo, SchoolSchedule
 from ...wrappers.asynchronous import AsyncWrapper
@@ -26,15 +27,13 @@ class AsyncSchoolData:
                  region: Optional[Region] = None,
                  info: Optional[SchoolInfo] = None):
         if code is None and info is None:
-            # TODO: Invalid Arguments.
-            raise "Arg Error"
+            raise ValueError("code 또는 info 인자는 반드시 전달해야 합니다.")
         if isinstance(ks, AsyncSession):
             self._wrapper = AsyncWrapper(ks)
         elif isinstance(ks, str):
             self._wrapper = AsyncWrapper(AsyncSession(ks))
         else:
-            # TODO: Invalid Arguments.
-            raise "Arg Error"
+            raise TypeError("ks 인자의 타입이 올바르지 않습니다.")
         self._code = code if info is None else info.code
         self._region = region if info is None else info.region
         self._info = info
@@ -50,8 +49,7 @@ class AsyncSchoolData:
             return
         temp = await self._wrapper.get_school_info(self._code, self._region)
         if not temp:
-            # TODO: Data Not Found.
-            raise "No Data."
+            raise DataNotFoundException
         info = temp[0]
         self._code = info.code
         self._region = info.region

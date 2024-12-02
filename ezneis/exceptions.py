@@ -4,6 +4,7 @@
 __all__ = [
     "InternalServiceError",
     "ServiceUnavailableError",
+    "DataNotFoundException",
     "SessionClosedException",
 ]
 
@@ -35,6 +36,11 @@ class ServiceUnavailableError(Exception):
     @property
     def url(self) -> str:
         return self._url
+
+
+class DataNotFoundException(Exception):
+    def __init__(self, message: str = ""):
+        super().__init__(message)
 
 
 class SessionClosedException(IOError):

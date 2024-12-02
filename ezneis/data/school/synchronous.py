@@ -2,8 +2,9 @@
 from dataclasses import dataclass, field
 from typing import Optional
 from .common import MealsTuple, ClassroomsTuple
+from ...exceptions import DataNotFoundException
 from ...http.synchronous import SyncSession
-from ...models import SchoolInfo, SchoolSchedule
+from ...models import SchoolInfo, SchoolSchedule, Major
 from ...wrappers.synchronous import SyncWrapper
 from ...utils.region import Region
 
@@ -19,21 +20,20 @@ class SyncSchoolData:
         = field(default=None, init=False)
     _meals: Optional[MealsTuple] = field(default=None, init=False)
     _classrooms: Optional[ClassroomsTuple] = field(default=None, init=False)
+    _majors: Optional[tuple[Major, ...]] = field(default=None, init=False)
 
     def __init__(self, ks: str | SyncSession, *,
                  code: Optional[str] = None,
                  region: Optional[Region] = None,
                  info: Optional[SchoolInfo] = None):
         if code is None and info is None:
-            # TODO: Invalid Arguments.
-            raise "Arg Error"
+            raise ValueError("code 또는 info 인자는 반드시 전달해야 합니다.")
         if isinstance(ks, SyncSession):
             self._wrapper = SyncWrapper(ks)
         elif isinstance(ks, str):
             self._wrapper = SyncWrapper(SyncSession(ks))
         else:
-            # TODO: Invalid Arguments.
-            raise "Arg Error"
+            raise TypeError("ks 인자의 타입이 올바르지 않습니다.")
         self._code = code if info is None else info.code
         self._region = region if info is None else info.region
         self._info = info
@@ -49,8 +49,7 @@ class SyncSchoolData:
             return
         temp = self._wrapper.get_school_info(self._code, self._region)
         if not temp:
-            # TODO: Data Not Found.
-            raise "No Data."
+            raise DataNotFoundException
         info = temp[0]
         self._code = info.code
         self._region = info.region

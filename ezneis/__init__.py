@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Optional
 from .data.school import SyncSchoolData, AsyncSchoolData
+from .exceptions import DataNotFoundException
 from .http import SyncSession, AsyncSession
 from .wrappers import SyncWrapper, AsyncWrapper
 from .utils.region import Region
@@ -12,8 +13,7 @@ def fetch_school(key: str, name: str, region: Optional[Region] = None
         wrapper = SyncWrapper(session)
         info = wrapper.get_school_info(name, region, hint=1)
         if not info:
-            # TODO: Data not found.
-            raise "No Data."
+            raise DataNotFoundException
         return SyncSchoolData(key, info=info[0])
 
 
@@ -32,8 +32,7 @@ async def fetch_school_async(key: str, name: str,
         wrapper = AsyncWrapper(session)
         info = await wrapper.get_school_info(name, region, hint=1)
         if not info:
-            # TODO: Data not found.
-            raise "No Data."
+            raise DataNotFoundException
         return AsyncSchoolData(key, info=info[0])
 
 
