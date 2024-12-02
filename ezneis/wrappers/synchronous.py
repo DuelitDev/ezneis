@@ -40,7 +40,13 @@ class SyncWrapper:
                       date: Optional[str | tuple[str, str]] = None,
                       **kwargs) -> tuple[Schedule, ...]:
         if date is None:
-            start_date = end_date = datetime.today().strftime("%Y%m")
+            now = datetime.today()
+            start_date = now.replace(day=1).strftime("%Y%m%d")
+            if now.month == 12:
+                next_month = now.replace(year=now.year + 1, month=1, day=1)
+            else:
+                next_month = now.replace(month=now.month + 1, day=1)
+            end_date = (next_month - timedelta(days=1)).strftime("%Y%m%d")
         elif isinstance(date, str):
             start_date = end_date = date
         elif isinstance(date, tuple):
