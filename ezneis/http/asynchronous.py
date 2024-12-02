@@ -64,6 +64,8 @@ class AsyncSession:
                     code, message = result["CODE"], result["MESSAGE"]
                     # TODO: InternalServiceError code Enum.
                     if code == "INFO-200":
+                        if remaining is None:
+                            remaining = 0
                         return []
                     raise InternalServiceError(code, message)
                 head, data = json[service.value]
