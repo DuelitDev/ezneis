@@ -82,13 +82,15 @@ class SyncWrapper:
         return tuple(MealParser.from_json(i) for i in data)
 
     def get_classrooms(self, code: str, region: Region,
-                       year: Optional[int] = None, **kwargs
+                       year: Optional[int] = None,
+                       grade: Optional[int] = None, **kwargs
                        ) -> tuple[Classroom, ...]:
         if year is None:
             year = datetime.today().year
         data = self._session.get(
             Services.CLASSROOMS,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, AY=year,
+            GRADE=grade,
             **kwargs
         )
         return tuple(ClassroomParser.from_json(i) for i in data)
@@ -114,15 +116,15 @@ class SyncWrapper:
             data = []
             for service in services:
                 data.extend(self._session.get(
-                    service.value,
+                    service,
                     SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                    MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date, **kwargs
+                    TI_FROM_YMD=start_date, TI_TO_YMD=end_date, **kwargs
                 ))
         else:
             data = self._session.get(
-                timetable_service.value,
+                timetable_service,
                 SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date, **kwargs
+                TI_FROM_YMD=start_date, TI_TO_YMD=end_date, **kwargs
             )
         return tuple(TimetableParser.from_json(i) for i in data)
 
