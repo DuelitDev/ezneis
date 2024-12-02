@@ -48,7 +48,7 @@ class SyncWrapper:
         else:
             raise ValueError("date_query 인자가 유효하지 않습니다.")
         data = self._session.get(
-            Services.SCHEDULE,
+            Services.SCHEDULES,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
             AA_FROM_YMD=start_date, AA_TO_YMD=end_date, **kwargs
         )
@@ -69,7 +69,7 @@ class SyncWrapper:
         else:
             raise ValueError("date_query의 값이 유효하지 않습니다.")
         data = self._session.get(
-            Services.MEAL,
+            Services.MEALS,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
             MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date, **kwargs
         )
