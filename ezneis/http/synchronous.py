@@ -50,7 +50,6 @@ class SyncSession:
         buffer = []
         remaining = hint
         while remaining is None or remaining - len(buffer) > 0:
-            print("REQ: ", url)
             response = self._session.get(url, params=params)
             if response.status_code != 200:
                 raise ServiceUnavailableError(url)
