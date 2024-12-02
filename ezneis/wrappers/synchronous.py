@@ -90,8 +90,7 @@ class SyncWrapper:
         data = self._session.get(
             Services.CLASSROOMS,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, AY=year,
-            GRADE=grade,
-            **kwargs
+            GRADE=grade, **kwargs
         )
         return tuple(ClassroomParser.from_json(i) for i in data)
 
