@@ -6,7 +6,7 @@ from ezneis.wrappers import SyncWrapper
 from ezneis.utils.region import Region
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def schools():
     samples = 10
     region = choice(list(Region))
