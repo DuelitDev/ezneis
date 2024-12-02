@@ -18,8 +18,8 @@ class Timetable:
     date: date
     period: int
     subject: str
-    class_name: str
+    classroom_name: str
     timing: Optional[Timing] = None
-    room_name: Optional[str] = None
+    lecture_room_name: Optional[str] = None
     major: Optional[str] = None
     department: Optional[Department] = None
