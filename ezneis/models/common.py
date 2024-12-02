@@ -2,9 +2,39 @@
 from enum import Enum
 
 __all__ = [
+    "SchoolCategory",
     "Timing",
     "Department",
 ]
+
+
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
+class SchoolCategory(Enum):
+    """
+    학교 종류를 나타내는 열거형입니다.
+    """
+    ELEMENTARY = "ELEMENTARY"
+    """초등학교입니다."""
+    MIDDLE     = "MIDDLE"
+    """중학교입니다."""
+    HIGH       = "HIGH"
+    """고등학교입니다."""
+    SEC_MID    = "SEC_MID"
+    """방송 통신 중학교입니다."""
+    SEC_HIGH   = "SEC_HIGH"
+    """방송 통신 고등학교입니다."""
+    MISC_ELE   = "MISC_ELE"
+    """초등학교 과정 각종 학교입니다."""
+    MISC_MID   = "MISC_MID"
+    """중학교 과정 각종 학교입니다."""
+    MISC_HIGH  = "MISC_HIGH"
+    """고등학교 과정 각종 학교입니다."""
+    SPECIAL    = "SPECIAL"
+    """특수 학교입니다."""
+    OTHERS     = "OTHERS"
+    """기타 종류의 학교입니다."""
 
 
 # noinspection SpellCheckingInspection

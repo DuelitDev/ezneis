@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 from typing import Optional
-from .common import Timing
+from .common import SchoolCategory, Timing
 from ..utils.region import Region
 
 __all__ = [
@@ -27,32 +27,6 @@ class FoundationType(Enum):
     """A public school."""
     PRIVATE     = "PRIVATE"
     """A private school."""
-
-
-class SchoolCategory(Enum):
-    """
-    Types of schools.
-    """
-    ELEMENTARY = "ELEMENTARY"
-    """An elementary school."""
-    MIDDLE     = "MIDDLE"
-    """A middle school."""
-    HIGH       = "HIGH"
-    """A high school."""
-    SEC_MID    = "SEC_MID"
-    """An open secondary middle school."""
-    SEC_HIGH   = "SEC_HIGH"
-    """An open secondary high school."""
-    MISC_ELE   = "MISC_ELE"
-    """A miscellaneous elementary school."""
-    MISC_MID   = "MISC_MID"
-    """A miscellaneous middle school."""
-    MISC_HIGH  = "MISC_HIGH"
-    """A miscellaneous high school."""
-    SPECIAL    = "SPECIAL"
-    """A special school."""
-    OTHERS     = "OTHERS"
-    """Other types of schools not listed."""
 
 
 class HighSchoolCategory(Enum):
