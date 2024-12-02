@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from typing import Optional
 from ..http.common import Services
 from ..http.asynchronous import AsyncSession
-from ..models import SchoolInfo, SchoolSchedule, Meal, Classroom
-from ..parsers import (SchoolInfoParser, SchoolScheduleParser, MealParser,
+from ..models import SchoolInfo, Schedule, Meal, Classroom
+from ..parsers import (SchoolInfoParser, ScheduleParser, MealParser,
                        ClassroomParser)
 from ..utils.region import Region
 
@@ -38,7 +38,7 @@ class AsyncWrapper:
 
     async def get_schedules(self, code: str, region: Region,
                             date: Optional[str | tuple[str, str]] = None,
-                            **kwargs) -> tuple[SchoolSchedule, ...]:
+                            **kwargs) -> tuple[Schedule, ...]:
         if date is None:
             start_date = end_date = datetime.today().strftime("%Y%m")
         elif isinstance(date, str):
@@ -52,7 +52,7 @@ class AsyncWrapper:
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
             AA_FROM_YMD=start_date, AA_TO_YMD=end_date, **kwargs
         )
-        return tuple(SchoolScheduleParser.from_json(i) for i in data)
+        return tuple(ScheduleParser.from_json(i) for i in data)
 
     async def get_meals(self, code: str, region: Region,
                         date: Optional[str | tuple[str, str]] = None,

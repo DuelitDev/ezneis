@@ -4,7 +4,7 @@ from typing import Optional
 from .common import MealsTuple, ClassroomsTuple
 from ...exceptions import DataNotFoundException
 from ...http.asynchronous import AsyncSession
-from ...models import SchoolInfo, SchoolSchedule
+from ...models import SchoolInfo, Schedule
 from ...wrappers.asynchronous import AsyncWrapper
 from ...utils.async_property import AsyncProperty
 from ...utils.region import Region
@@ -17,8 +17,7 @@ __all__ = [
 @dataclass()
 class AsyncSchoolData:
     _info: Optional[SchoolInfo] = field(default=None, init=False)
-    _schedules: Optional[tuple[SchoolSchedule, ...]]\
-        = field(default=None, init=False)
+    _schedules: Optional[tuple[Schedule, ...]] = field(default=None, init=False)
     _meals: Optional[MealsTuple] = field(default=None, init=False)
     _classrooms: Optional[ClassroomsTuple] = field(default=None, init=False)
 
@@ -80,7 +79,7 @@ class AsyncSchoolData:
         return self._info
 
     @AsyncProperty
-    async def schedules(self) -> tuple[SchoolSchedule, ...]:
+    async def schedules(self) -> tuple[Schedule, ...]:
         if self._schedules is None:
             await self.load_schedules()
         return self._schedules

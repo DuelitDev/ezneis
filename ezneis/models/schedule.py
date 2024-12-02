@@ -9,7 +9,7 @@ __all__ = [
     "Timing",
     "ScheduleCategory",
     "GradeCorrespondence",
-    "SchoolSchedule",
+    "Schedule",
 ]
 
 
@@ -58,7 +58,7 @@ class GradeCorrespondence:
 
 
 @dataclass(frozen=True)
-class SchoolSchedule:
+class Schedule:
     """
     Model representing a school schedule event.
     """

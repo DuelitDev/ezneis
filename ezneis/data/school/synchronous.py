@@ -4,7 +4,7 @@ from typing import Optional
 from .common import MealsTuple, ClassroomsTuple
 from ...exceptions import DataNotFoundException
 from ...http.synchronous import SyncSession
-from ...models import SchoolInfo, SchoolSchedule, Major
+from ...models import SchoolInfo, Schedule, Major
 from ...wrappers.synchronous import SyncWrapper
 from ...utils.region import Region
 
@@ -16,8 +16,7 @@ __all__ = [
 @dataclass()
 class SyncSchoolData:
     _info: Optional[SchoolInfo] = field(default=None, init=False)
-    _schedules: Optional[tuple[SchoolSchedule, ...]]\
-        = field(default=None, init=False)
+    _schedules: Optional[tuple[Schedule, ...]] = field(default=None, init=False)
     _meals: Optional[MealsTuple] = field(default=None, init=False)
     _classrooms: Optional[ClassroomsTuple] = field(default=None, init=False)
     _majors: Optional[tuple[Major, ...]] = field(default=None, init=False)
@@ -79,7 +78,7 @@ class SyncSchoolData:
         return self._info
 
     @property
-    def schedules(self) -> tuple[SchoolSchedule, ...]:
+    def schedules(self) -> tuple[Schedule, ...]:
         if self._schedules is None:
             self.load_schedules()
         return self._schedules

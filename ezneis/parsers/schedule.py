@@ -4,13 +4,13 @@ from .common import Parser
 from ..models.schedule import *
 
 __all__ = [
-    "SchoolScheduleParser"
+    "ScheduleParser"
 ]
 
 
-class SchoolScheduleParser(Parser):
+class ScheduleParser(Parser):
     @classmethod
-    def from_json(cls, data: dict) -> SchoolSchedule:
+    def from_json(cls, data: dict) -> Schedule:
         year = int(data["AY"])
         name = data["EVENT_NM"]
         description = data["EVENT_CNTNT"]
@@ -33,7 +33,7 @@ class SchoolScheduleParser(Parser):
             case "공휴일": category = ScheduleCategory.HOLIDAY
             case _:        category = None
         date = datetime.strptime(data["AA_YMD"], "%Y%m%d").date()
-        return SchoolSchedule(
+        return Schedule(
             year=year,
             name=name,
             description=description,
