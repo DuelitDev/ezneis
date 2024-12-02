@@ -43,7 +43,7 @@ class Services(Enum):
     """특수학교 시간표입니다."""
     DEPARTMENTS   = "schulAflcoinfo"
     """학교 계열 정보입니다."""
-    MAJOR         = "schoolMajorInfo"
+    MAJORS        = "schoolMajorInfo"
     """학교 학과 정보입니다."""
     ACADEMY_INFO  = "acaInsTiInfo"
     """학원 교습소 정보입니다."""
