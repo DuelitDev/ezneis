@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
+from typing import Optional
+from ..http.common import Services
 
 __all__ = [
     "SchoolCategory",
@@ -35,6 +37,28 @@ class SchoolCategory(Enum):
     """특수 학교입니다."""
     OTHERS     = "OTHERS"
     """기타 종류의 학교입니다."""
+
+    def get_timetable_service(self) -> Optional[Services]:
+        """
+        열거형이 속하는 시간표 서비스 열거형을 반환합니다.
+        가령, `HIGH`, `SEC_HIGH`, `MISC_HIGH`는 `Services.TIMETABLE_H`를
+        반환합니다.
+
+        :return: Services
+        """
+        match self:
+            case (SchoolCategory.HIGH | SchoolCategory.SEC_HIGH |
+                  SchoolCategory.MISC_HIGH):
+                return Services.TIMETABLE_H
+            case (SchoolCategory.MIDDLE | SchoolCategory.SEC_MID |
+                  SchoolCategory.MISC_MID):
+                return Services.TIMETABLE_M
+            case SchoolCategory.ELEMENTARY | SchoolCategory.MISC_ELE:
+                return Services.TIMETABLE_E
+            case SchoolCategory.SPECIAL:
+                return Services.TIMETABLE_S
+            case _:
+                return None
 
 
 # noinspection SpellCheckingInspection
