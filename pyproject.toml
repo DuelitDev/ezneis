@@ -1,10 +1,6 @@
-[build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "ezneis"
-version = "0.1.1a0"
+version = "0.1.0a0"
 authors = [
   { name="DuelitDev", email="jyoon07dev@gmail.com" },
 ]
@@ -19,6 +15,7 @@ keywords = [ "나이스", "neis", "api", "neis-api", "parse", "asyncio" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -31,3 +28,11 @@ Download = "https://github.com/DuelitDev/ezneis/tarball/master"
 Changelog = "https://github.com/DuelitDev/ezneis/releases"
 Documentation = "https://github.com/DuelitDev/ezneis/wiki"
 Issues = "https://github.com/DuelitDev/ezneis/issues"
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "session"
+asyncio_mode = "auto"
