@@ -1,33 +1,13 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
-from enum import Enum
 from typing import Optional
-from .common import Timing
+from .common import CourseType, Timing
 
 __all__ = [
-    "Timing",
     "CourseType",
+    "Timing",
     "Classroom",
 ]
-
-
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
-class CourseType(Enum):
-    """
-    학교 과정의 유형을 나타내는 열거형입니다.
-    """
-    PRESCHOOL  = "PRESCHOOL"
-    """유치원 과정입니다."""
-    ELEMENTARY = "ELEMENTARY"
-    """초등학교 과정입니다."""
-    MIDDLE     = "MIDDLE"
-    """중학교 과정입니다."""
-    HIGH       = "HIGH"
-    """고등학교 과정입니다."""
-    SPECIALITY = "SPECIALITY"
-    """특수학교 과정입니다."""
 
 
 # noinspection SpellCheckingInspection
