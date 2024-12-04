@@ -14,7 +14,7 @@ class DepartmentParser(Parser):
     @classmethod
     def from_json(cls, data: dict) -> Department:
         name = data["ORD_SC_NM"] if "ORD_SC_NM" in data else None
-        match data["DGHT_SC_NM"]:
+        match data["DGHT_CRSE_SC_NM"]:
             case "주간":       timing = Timing.DAY
             case "야간":       timing = Timing.NIGHT
             case "산업체특별": timing = Timing.BOTH
