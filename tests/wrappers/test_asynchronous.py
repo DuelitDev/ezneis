@@ -47,10 +47,29 @@ async def test_get_classrooms(wrapper, schools):
 
 
 @pytest.mark.asyncio
+async def test_get_lecture_rooms(wrapper, schools):
+    results = await gather(*[
+        wrapper.get_lecture_rooms(
+            i.code, i.region, grade=randint(1, 3), semester=randint(1, 2))
+        for i in schools
+    ])
+    print(f"\t\tTotal: {sum(map(len, results))}")
+
+
+@pytest.mark.asyncio
 async def test_get_timetable(wrapper, schools):
     results = await gather(*[
         wrapper.get_timetable(
             i.code, i.region, i.school_category.get_timetable_service())
+        for i in schools
+    ])
+    print(f"\t\tTotal: {sum(map(len, results))}")
+
+
+@pytest.mark.asyncio
+async def test_get_departments(wrapper, schools):
+    results = await gather(*[
+        wrapper.get_departments(i.code, i.region)
         for i in schools
     ])
     print(f"\t\tTotal: {sum(map(len, results))}")
