@@ -2,11 +2,10 @@
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional
-from .common import Timing, Department
+from .common import Timing
 
 __all__ = [
     "Timing",
-    "Department",
     "Timetable",
 ]
 
@@ -22,4 +21,4 @@ class Timetable:
     timing: Optional[Timing] = None
     lecture_room_name: Optional[str] = None
     major: Optional[str] = None
-    department: Optional[Department] = None
+    department: Optional[str] = None
