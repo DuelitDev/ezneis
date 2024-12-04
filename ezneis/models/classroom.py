@@ -2,11 +2,10 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
-from .common import Timing, Department
+from .common import Timing
 
 __all__ = [
     "Timing",
-    "Department",
     "CourseType",
     "Classroom",
 ]
@@ -49,7 +48,7 @@ class Classroom:
     """학과명"""
     course: CourseType
     """학교과정명"""
-    department: Optional[Department]
+    department: Optional[str]
     """계열명"""
     timing: Optional[Timing]
     """주야과정명"""
