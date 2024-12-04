@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 from typing import Optional
 from ..http.common import Services
 from ..http.asynchronous import AsyncSession
-from ..models import (SchoolInfo, Schedule, Meal, Classroom, Timetable, Major)
+from ..models import (SchoolInfo, Schedule, Meal, Classroom, LectureRoom,
+                      Timetable, Department, Major)
 from ..parsers import (SchoolInfoParser, ScheduleParser, MealParser,
-                       ClassroomParser, TimetableParser, MajorParser)
+                       LectureRoomParser, ClassroomParser, TimetableParser,
+                       DepartmentParser, MajorParser)
 from ..utils.region import Region
 
 __all__ = [
@@ -94,6 +96,20 @@ class AsyncWrapper:
         )
         return tuple(ClassroomParser.from_json(i) for i in data)
 
+    async def get_lecture_rooms(self, code: str, region: Region,
+                                year: Optional[int] = None,
+                                grade: Optional[int] = None,
+                                semester: Optional[int] = None,
+                                **kwargs) -> tuple[LectureRoom, ...]:
+        if year is None:
+            year = datetime.today().year
+        data = await self._session.get(
+            Services.LECTURE_ROOMS,
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, AY=year,
+            GRADE=grade, SEM=semester, **kwargs
+        )
+        return tuple(LectureRoomParser.from_json(i) for i in data)
+
     async def get_timetable(self, code: str, region: Region,
                             timetable_service: Optional[Services] = None,
                             date: Optional[str | tuple[str, str]] = None,
@@ -127,11 +143,18 @@ class AsyncWrapper:
             )
         return tuple(TimetableParser.from_json(i) for i in data)
 
+    async def get_departments(self, code: str, region: Region, **kwargs
+                              ) -> tuple[Department, ...]:
+        data = await self._session.get(
+            Services.DEPARTMENTS,
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, **kwargs
+        )
+        return tuple(DepartmentParser.from_json(i) for i in data)
+
     async def get_majors(self, code: str, region: Region, **kwargs
                          ) -> tuple[Major, ...]:
         data = await self._session.get(
             Services.MAJORS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            **kwargs
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, **kwargs
         )
         return tuple(MajorParser.from_json(i) for i in data)
