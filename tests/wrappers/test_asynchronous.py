@@ -59,7 +59,7 @@ async def test_get_lecture_rooms(wrapper, schools):
 @pytest.mark.asyncio
 async def test_get_timetable(wrapper, schools):
     results = await gather(*[
-        wrapper.get_timetable(
+        wrapper.get_timetables(
             i.code, i.region, i.school_category.get_timetable_service())
         for i in schools
     ])

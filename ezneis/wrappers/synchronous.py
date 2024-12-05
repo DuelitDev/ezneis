@@ -110,10 +110,10 @@ class SyncWrapper:
         )
         return tuple(LectureRoomParser.from_json(i) for i in data)
 
-    def get_timetable(self, code: str, region: Region,
-                      timetable_service: Optional[Services] = None,
-                      date: Optional[str | tuple[str, str]] = None,
-                      **kwargs) -> tuple[Timetable, ...]:
+    def get_timetables(self, code: str, region: Region,
+                       timetable_service: Optional[Services] = None,
+                       date: Optional[str | tuple[str, str]] = None,
+                       **kwargs) -> tuple[Timetable, ...]:
         if date is None:
             today = datetime.today()
             temp = (today - timedelta(days=today.weekday()))
@@ -126,8 +126,8 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         if timetable_service is None:
-            services = (Services.TIMETABLE_E, Services.TIMETABLE_M,
-                        Services.TIMETABLE_H, Services.TIMETABLE_S)
+            services = (Services.TIMETABLES_E, Services.TIMETABLES_M,
+                        Services.TIMETABLES_H, Services.TIMETABLES_S)
             data = []
             for service in services:
                 data.extend(self._session.get(

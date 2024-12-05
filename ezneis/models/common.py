@@ -68,14 +68,14 @@ class SchoolCategory(Enum):
         match self:
             case (SchoolCategory.HIGH | SchoolCategory.SEC_HIGH |
                   SchoolCategory.MISC_HIGH):
-                return Services.TIMETABLE_H
+                return Services.TIMETABLES_H
             case (SchoolCategory.MIDDLE | SchoolCategory.SEC_MID |
                   SchoolCategory.MISC_MID):
-                return Services.TIMETABLE_M
+                return Services.TIMETABLES_M
             case SchoolCategory.ELEMENTARY | SchoolCategory.MISC_ELE:
-                return Services.TIMETABLE_E
+                return Services.TIMETABLES_E
             case SchoolCategory.SPECIAL:
-                return Services.TIMETABLE_S
+                return Services.TIMETABLES_S
             case _:
                 return None
 

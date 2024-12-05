@@ -52,7 +52,7 @@ def test_get_lecture_rooms(wrapper, schools):
 def test_get_timetable(wrapper, schools):
     cases = 0
     for i in schools:
-        result = wrapper.get_timetable(
+        result = wrapper.get_timetables(
             i.code, i.region, i.school_category.get_timetable_service())
         cases += len(result)
     print(f"\t\tTotal: {cases}")
