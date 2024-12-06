@@ -19,130 +19,151 @@ __all__ = [
 ]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class FoundationType(Enum):
     """
-    Types of school foundations.
+    학교 설립 구분 열거형입니다.
     """
     PUBLIC      = "PUBLIC"
-    """A public school."""
+    """공립 학교입니다."""
     PRIVATE     = "PRIVATE"
-    """A private school."""
+    """사립 학교입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class HighSchoolCategory(Enum):
     """
-    Types of high schools.
+    고등학교 일반, 전문 구분 열거형입니다.
     """
     NORMAL     = "NORMAL"
-    """A normal high school."""
+    """일반계 고등학교입니다."""
     VOCATIONAL = "VOCATIONAL"
-    """A vocational high school."""
+    """전문계 고등학교입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class HighSchoolSubtype(Enum):
     """
-    Subtypes of high schools.
+    고등학교 계열 열거형입니다.
     """
     NORMAL          = "NORMAL"
-    """A normal high school."""
+    """일반 고등학교입니다."""
     SPECIALIZED     = "SPECIALIZED"
-    """A specialized high school."""
+    """특성화 고등학교입니다."""
     SPECIAL_PURPOSE = "SPECIAL_PURPOSE"
-    """A special purpose high school."""
+    """특수 목적 고등학교입니다."""
     AUTONOMOUS      = "AUTONOMOUS"
-    """An autonomous high school."""
+    """자율형 고등학교입니다."""
     OTHERS          = "OTHERS"
-    """Other types of high schools not listed."""
+    """기타 고등학교입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class SchoolPurpose(Enum):
     """
-    Primary purposes of schools.
+    특수 목적 고등학교 계열 열거형입니다.
     """
     INTERNATIONAL = "INTERNATIONAL"
-    """A school with an international focus."""
+    """국제 계열 특수 목적 고등학교입니다."""
     PHYSICAL      = "PHYSICAL"
-    """A school with a focus on physical education."""
+    """체육 계열 특수 목적 고등학교입니다."""
     ART           = "ART"
-    """A school with an art focus."""
+    """예술 계열 특수 목적 고등학교입니다."""
     SCIENCE       = "SCIENCE"
-    """A school with a science focus."""
+    """과학 계열 특수 목적 고등학교입니다."""
     LANGUAGE      = "LANGUAGE"
-    """A school with a language focus."""
+    """외국어 계열 특수 목적 고등학교입니다."""
     INDUSTRY      = "INDUSTRY"
-    """A school with an industry focus."""
+    """산업 수요 맞춤형 특수 목적 고등학교입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class AdmissionPeriod(Enum):
     """
-    School admission periods.
+    입시 전기, 후기 구분 열거형입니다.
     """
     EARLY = "EARLY"
-    """Early admission period."""
+    """전기 입시 유형입니다."""
     LATE  = "LATE"
-    """Late admission period."""
+    """후기 입시 유형입니다."""
     BOTH  = "BOTH"
-    """Both early and late admission periods."""
+    """전후기 입시 유형입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class GenderComposition(Enum):
     """
-    Gender composition of the students.
+    단성, 혼성 구분 열거형입니다.
     """
     MIXED      = "MIXED"
-    """A mixed-gender school."""
+    """혼성 학교입니다."""
     BOYS_ONLY  = "BOYS_ONLY"
-    """A boys-only school."""
+    """남자 단성 학교입니다."""
     GIRLS_ONLY = "GIRLS_ONLY"
-    """A girls-only school."""
+    """여자 단성 학교입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class SchoolInfo:
     """
-    Detailed information about a school.
+    학교 기본 정보를 나타내는 데이터 클래스입니다.
     """
-    code: str
-    """The unique code of the school."""
-    name: str
-    """The name of the school."""
-    english_name: Optional[str]
-    """The English name of the school."""
-    foundation_type: Optional[FoundationType]
-    """The foundation type of the school."""
-    school_category: SchoolCategory
-    """The category of the school."""
-    high_school_category: Optional[HighSchoolCategory]
-    """The high school category if applicable."""
-    subtype: Optional[HighSchoolSubtype]
-    """The subtype of the high school if applicable."""
-    purpose: Optional[SchoolPurpose]
-    """The primary purpose of the school."""
-    timing: Timing
-    """The operational times of the school."""
-    admission_period: AdmissionPeriod
-    """The admission period of the school."""
-    gender_composition: GenderComposition
-    """The gender composition of the school's students."""
-    industry_supports: bool
-    """Indicates if the school has industry support programs."""
     region: Region
-    """The region where the school is located."""
-    address: Optional[str]
-    """The address of the school."""
-    address_detail: Optional[str]
-    """Additional address details of the school."""
-    zip_code: int
-    """The zip code of the school."""
+    """시도 교육청 코드"""
+    code: str
+    """행정 표준 코드"""
+    name: str
+    """학교명"""
+    english_name: Optional[str]
+    """영문 학교명"""
+    school_category: SchoolCategory
+    """학교 종류명"""
     jurisdiction_name: str
-    """The name of the jurisdiction overseeing the school."""
+    """관할 조직명"""
+    foundation_type: Optional[FoundationType]
+    """설립명"""
+    zip_code: int
+    """도로명 우편 번호"""
+    address: Optional[str]
+    """도로명 주소"""
+    address_detail: Optional[str]
+    """도로명 상세 주소"""
     tel_number: str
-    """The telephone number of the school."""
-    fax_number: Optional[str]
-    """The fax number of the school."""
+    """전화 번호"""
     website: Optional[str]
-    """The website of the school."""
+    """홈페이지 주소"""
+    gender_composition: GenderComposition
+    """남녀공학 구분명"""
+    fax_number: Optional[str]
+    """팩스 번호"""
+    subtype: Optional[HighSchoolSubtype]
+    """고등학교 구분명"""
+    industry_supports: bool
+    """산업체 특별 학급 존재 여부"""
+    high_school_category: Optional[HighSchoolCategory]
+    """고등학교 일반 전문 구분명"""
+    purpose: Optional[SchoolPurpose]
+    """특수 목적 고등학교 계열명"""
+    admission_period: AdmissionPeriod
+    """입시 전후기 구분명"""
+    timing: Timing
+    """주야 구분명"""
     founded_date: date
-    """The founding date of the school."""
+    """설립 일자"""
     anniversary: date
-    """The anniversary date of the school."""
+    """개교 기념일"""
