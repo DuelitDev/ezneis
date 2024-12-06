@@ -25,37 +25,39 @@ __all__ = [
 _session_manager = SessionManager()
 
 
-def get_school(key: str, name: str, region: Optional[Region] = None
-               ) -> SyncSchoolData:
+def get_school(key: str, name: str = "",
+               region: Optional[Region] = None,
+               **kwargs) -> SyncSchoolData:
     wrapper = _session_manager.get_sync_wrapper(key)
-    info = wrapper.get_school_info(name, region, hint=1)
+    info = wrapper.get_school_info(name, region, **kwargs, hint=1)
     if not info:
         raise DataNotFoundException
     return SyncSchoolData(wrapper, info=info[0])
 
 
-def get_schools(key: str, name: str, region: Optional[Region] = None
-                ) -> tuple[SyncSchoolData, ...]:
+def get_schools(key: str, name: str = "",
+                region: Optional[Region] = None,
+                **kwargs) -> tuple[SyncSchoolData, ...]:
     wrapper = _session_manager.get_sync_wrapper(key)
-    info = wrapper.get_school_info(name, region)
+    info = wrapper.get_school_info(name, region, **kwargs)
     return tuple(SyncSchoolData(wrapper, info=i) for i in info)
 
 
-async def get_school_async(key: str, name: str,
-                           region: Optional[Region] = None
-                           ) -> AsyncSchoolData:
+async def get_school_async(key: str, name: str = "",
+                           region: Optional[Region] = None,
+                           **kwargs) -> AsyncSchoolData:
     wrapper = _session_manager.get_async_wrapper(key)
-    info = await wrapper.get_school_info(name, region, hint=1)
+    info = await wrapper.get_school_info(name, region, **kwargs, hint=1)
     if not info:
         raise DataNotFoundException
     return AsyncSchoolData(wrapper, info=info[0])
 
 
-async def get_schools_async(key: str, name: str,
-                            region: Optional[Region] = None
-                            ) -> tuple[AsyncSchoolData, ...]:
+async def get_schools_async(key: str, name: str = "",
+                            region: Optional[Region] = None,
+                            **kwargs) -> tuple[AsyncSchoolData, ...]:
     wrapper = _session_manager.get_async_wrapper(key)
-    info = await wrapper.get_school_info(name, region)
+    info = await wrapper.get_school_info(name, region, **kwargs)
     return tuple(AsyncSchoolData(wrapper, info=i) for i in info)
 
 
