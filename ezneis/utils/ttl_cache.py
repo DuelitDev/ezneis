@@ -10,7 +10,8 @@ __all__ = [
 
 
 # noinspection SpellCheckingInspection
-# PyCharm IDE의 오탈자 검사 기능을 무시
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 def _deep_freeze(value: dict | list | set):
     """
     입력 값을 재귀적으로 해시 가능한 형태로 변환합니다.
@@ -29,7 +30,8 @@ def _deep_freeze(value: dict | list | set):
 
 
 # noinspection SpellCheckingInspection
-# PyCharm IDE의 오탈자 검사 기능을 무시
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 def ttl_cache(ttl: int, maxsize: int = 64, is_method: bool = False):
     """
     TTL(Time-To-Live) 캐시를 구현한 데코레이터입니다.

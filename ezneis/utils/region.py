@@ -7,7 +7,8 @@ __all__ = [
 
 
 # noinspection SpellCheckingInspection
-# PyCharm IDE의 오탈자 검사 기능을 무시
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class Region(Enum):
     """
     시도교육청코드 열거형입니다.
