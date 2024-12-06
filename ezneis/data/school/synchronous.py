@@ -2,11 +2,8 @@
 from dataclasses import dataclass, field
 from typing import Optional
 from .common import *
-from ...exceptions import DataNotFoundException
-from ...http.synchronous import SyncSession
-from ...models import SchoolInfo
+from ...models import *
 from ...wrappers.synchronous import SyncWrapper
-from ...utils.region import Region
 
 __all__ = [
     "SyncSchoolData"
@@ -15,62 +12,58 @@ __all__ = [
 
 @dataclass()
 class SyncSchoolData:
-    _info: Optional[SchoolInfo]\
+    _info: Optional[SchoolInfo] \
         = field(default=None, init=False)
 
-    _schedules: Optional[SchedulesTuple]\
+    _schedules: Optional[SchedulesTuple] \
         = field(default=None, init=False)
 
-    _meals: Optional[MealsTuple]\
+    _meals: Optional[MealsTuple] \
         = field(default=None, init=False)
 
-    _classrooms: Optional[ClassroomsTuple]\
+    _classrooms: Optional[ClassroomsTuple] \
         = field(default=None, init=False)
 
-    _lecture_rooms: Optional[LectureRoomsTuple]\
+    _lecture_rooms: Optional[LectureRoomsTuple] \
         = field(default=None, init=False)
 
-    _timetables: Optional[TimetablesTuple]\
+    _timetables: Optional[TimetablesTuple] \
         = field(default=None, init=False)
 
-    _departments: Optional[DepartmentsTuple]\
+    _departments: Optional[DepartmentsTuple] \
         = field(default=None, init=False)
 
-    _majors: Optional[MajorsTuple]\
+    _majors: Optional[MajorsTuple] \
         = field(default=None, init=False)
 
-    def __init__(self, ks: str | SyncSession, *,
-                 code: Optional[str] = None,
-                 region: Optional[Region] = None,
-                 info: Optional[SchoolInfo] = None):
-        if code is None and info is None:
-            raise ValueError("code 또는 info 인자는 반드시 전달해야 합니다.")
-        if isinstance(ks, SyncSession):
-            self._wrapper = SyncWrapper(ks)
-        elif isinstance(ks, str):
-            self._wrapper = SyncWrapper(SyncSession(ks))
-        else:
-            raise TypeError("ks 인자의 타입이 올바르지 않습니다.")
-        self._code = code if info is None else info.code
-        self._region = region if info is None else info.region
-        self._info = info
-
-    def load_all(self, reload=False):
-        self.load_info(reload)
-        self.load_schedules(reload)
-        self.load_meals(reload)
-        self.load_classrooms(reload)
-
-    def load_info(self, reload=False):
-        if self._info is not None and not reload:
-            return
-        temp = self._wrapper.get_school_info(self._code, self._region)
-        if not temp:
-            raise DataNotFoundException
-        info = temp[0]
+    def __init__(self, wrapper: SyncWrapper, *, info: SchoolInfo,
+                 schedules:     Optional[tuple[Schedule, ...]]    = None,
+                 meals:         Optional[tuple[Meal, ...]]        = None,
+                 classrooms:    Optional[tuple[Classroom, ...]]   = None,
+                 lecture_rooms: Optional[tuple[LectureRoom, ...]] = None,
+                 timetables:    Optional[tuple[Timetable, ...]]   = None,
+                 departments:   Optional[tuple[Department, ...]]  = None,
+                 majors:        Optional[tuple[Major, ...]]       = None):
+        self._wrapper = wrapper
         self._code = info.code
         self._region = info.region
         self._info = info
+        self._schedules = schedules
+        self._meals = meals
+        self._classrooms = classrooms
+        self._lecture_rooms = lecture_rooms
+        self._timetables = timetables
+        self._departments = departments
+        self._majors = majors
+
+    def load_all(self, reload=False):
+        self.load_schedules(reload)
+        self.load_meals(reload)
+        self.load_classrooms(reload)
+        self.load_lecture_rooms(reload)
+        self.load_timetable(reload)
+        self.load_departments(reload)
+        self.load_majors(reload)
 
     def load_schedules(self, reload=False):
         if self._schedules is not None and not reload:
@@ -116,8 +109,6 @@ class SyncSchoolData:
 
     @property
     def info(self) -> SchoolInfo:
-        if self._info is None:
-            self.load_info()
         return self._info
 
     @property
