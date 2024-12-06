@@ -35,7 +35,7 @@ class SyncWrapper:
             "ATPT_OFCDC_SC_CODE": region.value if region is not None else "",
             "SD_SCHUL_CODE" if is_code else "SCHUL_NM": code,
         }
-        data = self._session.get(**params, **kwargs)
+        data = self._session.get(**kwargs, **params)
         return tuple(SchoolInfoParser.from_json(i) for i in data)
 
     def get_schedules(self, code: str, region: Region,
@@ -56,9 +56,9 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         data = self._session.get(
-            Services.SCHEDULES,
+            **kwargs, service=Services.SCHEDULES,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            AA_FROM_YMD=start_date, AA_TO_YMD=end_date, **kwargs
+            AA_FROM_YMD=start_date, AA_TO_YMD=end_date
         )
         return tuple(ScheduleParser.from_json(i) for i in data)
 
@@ -77,9 +77,9 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         data = self._session.get(
-            Services.MEALS,
+            **kwargs, service=Services.MEALS,
             SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date, **kwargs
+            MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date
         )
         return tuple(MealParser.from_json(i) for i in data)
 
@@ -90,9 +90,9 @@ class SyncWrapper:
         if year is None:
             year = datetime.today().year
         data = self._session.get(
-            Services.CLASSROOMS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, AY=year,
-            GRADE=grade, **kwargs
+            **kwargs, service=Services.CLASSROOMS,
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
+            AY=year, GRADE=grade
         )
         return tuple(ClassroomParser.from_json(i) for i in data)
 
@@ -104,9 +104,9 @@ class SyncWrapper:
         if year is None:
             year = datetime.today().year
         data = self._session.get(
-            Services.LECTURE_ROOMS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, AY=year,
-            GRADE=grade, SEM=semester, **kwargs
+            **kwargs, service=Services.LECTURE_ROOMS,
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
+            AY=year, GRADE=grade, SEM=semester
         )
         return tuple(LectureRoomParser.from_json(i) for i in data)
 
@@ -131,15 +131,15 @@ class SyncWrapper:
             data = []
             for service in services:
                 data.extend(self._session.get(
-                    service,
+                    **kwargs, service=service,
                     SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                    TI_FROM_YMD=start_date, TI_TO_YMD=end_date, **kwargs
+                    TI_FROM_YMD=start_date, TI_TO_YMD=end_date
                 ))
         else:
             data = self._session.get(
-                timetable_service,
+                **kwargs, service=timetable_service,
                 SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                TI_FROM_YMD=start_date, TI_TO_YMD=end_date, **kwargs
+                TI_FROM_YMD=start_date, TI_TO_YMD=end_date
             )
         return tuple(TimetableParser.from_json(i) for i in data)
 
@@ -154,7 +154,7 @@ class SyncWrapper:
     def get_majors(self, code: str, region: Region, **kwargs
                    ) -> tuple[Major, ...]:
         data = self._session.get(
-            Services.MAJORS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, **kwargs
+            **kwargs, service=Services.MAJORS,
+            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value
         )
         return tuple(MajorParser.from_json(i) for i in data)
