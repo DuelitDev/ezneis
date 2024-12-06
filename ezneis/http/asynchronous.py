@@ -23,7 +23,11 @@ class AsyncSession:
 
     def __del__(self):
         if not self._session.closed:
-            loop = asyncio.get_running_loop()
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
             asyncio.run_coroutine_threadsafe(self.close(), loop)
 
     async def __aenter__(self) -> AsyncSession:
