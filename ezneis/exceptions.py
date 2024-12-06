@@ -53,7 +53,14 @@ class InternalServiceCode(Enum):
        지속적으로 발생시 홈페이지로 문의(Q&A) 바랍니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class InternalServiceError(Exception):
+    """
+    요청한 서비스의 데이터에 발생한 오류를 나타냅니다.
+    """
+
     def __init__(self, code: str, message: str):
         self._code = InternalServiceCode(code)
         self._message = message
@@ -74,27 +81,55 @@ class InternalServiceError(Exception):
     def message(self) -> str:
         """
         내부 서비스 오류에 대한 설명입니다.
+
+        :return: str
         """
         return self._message
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class ServiceUnavailableError(Exception):
+    """
+    서비스 요청에 실패했을 때 발생한 오류를 나타냅니다.
+    """
+
     def __init__(self, url: str):
         self._url = url
 
     def __str__(self) -> str:
-        return f"Failed to connect to endpoint: {self._url}"
+        return f"Endpoint에 연결 실패: {self._url}"
 
     @property
     def url(self) -> str:
+        """
+        요청한 서비스의 url입니다.
+
+        :return: str
+        """
         return self._url
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class DataNotFoundException(Exception):
+    """
+    서비스 데이터가 없는 예외를 나타냅니다.
+    """
+
     def __init__(self, message: str = ""):
         super().__init__(message)
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class SessionClosedException(IOError):
+    """
+    사용하려는 세션이 이미 닫힌 예외를 나타냅니다.
+    """
+
     def __str__(self) -> str:
-        return "The session is closed."
+        return "이 세션은 이미 닫혔습니다."
