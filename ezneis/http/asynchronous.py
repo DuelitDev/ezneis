@@ -5,8 +5,8 @@ import aiohttp
 import asyncio
 from typing import Optional
 from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
-from ..exceptions import (InternalServiceError, ServiceUnavailableError,
-                          SessionClosedException)
+from ..exceptions import (InternalServiceCode, InternalServiceError,
+                          ServiceUnavailableError, SessionClosedException)
 from ..utils.ttl_cache import ttl_cache
 
 __all__ = [
@@ -66,8 +66,7 @@ class AsyncSession:
                 if service.value not in json:
                     result = json["RESULT"]
                     code, message = result["CODE"], result["MESSAGE"]
-                    # TODO: InternalServiceError code Enum.
-                    if code == "INFO-200":
+                    if code == InternalServiceCode.NOT_FOUND.value:
                         if remaining is None:
                             remaining = 0
                         return []
