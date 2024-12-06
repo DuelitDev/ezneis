@@ -93,6 +93,8 @@ class Timing(Enum):
     """야간 과정입니다."""
     BOTH  = "BOTH"
     """주간과 야간을 모두 포함하는 과정입니다."""
+    INDUSTRY_SPECIAL = "INDUSTRY_SPECIAL"
+    """산업체 특별 과정입니다."""
 
     def __contains__(self, item) -> bool:
         """
@@ -104,6 +106,6 @@ class Timing(Enum):
         :param item: 이 주야 과정과 비교할 항목입니다.
         :return: bool
         """
-        if self is Timing.BOTH:
+        if self == Timing.BOTH and item != Timing.INDUSTRY_SPECIAL:
             return True
         return item == self

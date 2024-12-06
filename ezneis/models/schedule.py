@@ -6,73 +6,75 @@ from typing import Optional, SupportsIndex
 from .common import Timing
 
 __all__ = [
-    "Timing",
     "ScheduleCategory",
+    "Timing",
     "GradeCorrespondence",
-    "Schedule",
+    "Schedule"
 ]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class ScheduleCategory(Enum):
     """
-    Enumeration representing the category of a schedule.
+    행사 유형 열거형입니다.
     """
     DAY_OFF = "DAY_OFF"
-    """Represents a day off event."""
+    """휴업일입니다."""
     HOLIDAY = "HOLIDAY"
-    """Represents a holiday event."""
+    """공휴일입니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class GradeCorrespondence:
     """
-    Model representing the grades to which a schedule corresponds.
+    행사에 해당하는 학년을 나타내는 데이터 클래스입니다.
     """
     grade0: bool
-    """Indicates if the schedule corresponds to grade 0."""
+    """0학년의 행사 해당 여부입니다."""
     grade1: bool
-    """Indicates if the schedule corresponds to grade 1."""
+    """1학년의 행사 해당 여부입니다."""
     grade2: bool
-    """Indicates if the schedule corresponds to grade 2."""
+    """2학년의 행사 해당 여부입니다."""
     grade3: bool
-    """Indicates if the schedule corresponds to grade 3."""
+    """3학년의 행사 해당 여부입니다."""
     grade4: bool
-    """Indicates if the schedule corresponds to grade 4."""
+    """4학년의 행사 해당 여부입니다."""
     grade5: bool
-    """Indicates if the schedule corresponds to grade 5."""
+    """5학년의 행사 해당 여부입니다."""
     grade6: bool
-    """Indicates if the schedule corresponds to grade 6."""
+    """6학년의 행사 해당 여부입니다."""
     grade7: bool
-    """Indicates if the schedule corresponds to grade 7."""
+    """7학년의 행사 해당 여부입니다."""
 
-    def __getitem__(self, indices: slice | SupportsIndex):
-        """
-        Allows indexing and slicing to access grade correspondence.
-
-        :param indices: Index or slice to access specific grades.
-        :return: Tuple of booleans indicating correspondence
-                 to specified grades.
-        """
+    def __getitem__(self, indices: slice | SupportsIndex) -> tuple[bool, ...]:
         return (self.grade0, self.grade1, self.grade2, self.grade3,
                 self.grade4, self.grade5, self.grade6, self.grade7)[indices]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Schedule:
     """
-    Model representing a school schedule event.
+    학사 일정을 나타내는 데이터 클래스입니다.
     """
     year: int
-    """The year of the event."""
-    name: str
-    """The name of the event."""
-    description: Optional[str]
-    """The description of the event."""
+    """학년도"""
     time: Optional[Timing]
-    """The time classification of the event."""
-    correspondence: GradeCorrespondence
-    """The model representing the grades to which the event corresponds."""
+    """주야 과정명"""
     category: Optional[ScheduleCategory]
-    """The category of the event."""
+    """행사 유형 (수업 공제일명)"""
     date: date
-    """The date of the event."""
+    """학사 일자"""
+    name: str
+    """행사명"""
+    description: Optional[str]
+    """행사 내용"""
+    correspondence: GradeCorrespondence
+    """학년 행사 여부"""

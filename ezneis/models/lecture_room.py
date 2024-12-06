@@ -24,13 +24,13 @@ class LectureRoom:
     """학년"""
     semester: int
     """학기"""
-    name: Optional[str]
-    """강의실명"""
-    major: Optional[str]
-    """학과명"""
     course: CourseType
     """학교과정명"""
-    department: Optional[str]
-    """계열명"""
     timing: Optional[Timing]
     """주야과정명"""
+    department: Optional[str]
+    """계열명"""
+    major: Optional[str]
+    """학과명"""
+    name: Optional[str]
+    """강의실명"""

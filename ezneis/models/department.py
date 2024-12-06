@@ -16,9 +16,7 @@ class Department:
     """
     학과 계열 정보를 나타내는 데이터 클래스입니다.
     """
-    name: str
-    """계열명"""
     timing: Timing
     """주야과정명"""
-    is_special_industry_timing: bool
-    """산업체특별 주야과정 여부"""
+    name: str
+    """계열명"""

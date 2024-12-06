@@ -7,9 +7,9 @@ from .common import SchoolCategory, Timing
 from ..utils.region import Region
 
 __all__ = [
+    "SchoolCategory",
     "Timing",
     "FoundationType",
-    "SchoolCategory",
     "HighSchoolCategory",
     "HighSchoolSubtype",
     "SchoolPurpose",

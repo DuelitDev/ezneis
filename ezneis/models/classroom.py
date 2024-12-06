@@ -6,7 +6,7 @@ from .common import CourseType, Timing
 __all__ = [
     "CourseType",
     "Timing",
-    "Classroom",
+    "Classroom"
 ]
 
 
@@ -22,13 +22,13 @@ class Classroom:
     """학년도"""
     grade: int
     """학년"""
-    name: Optional[str]
-    """학급명"""
-    major: Optional[str]
-    """학과명"""
+    timing: Optional[Timing]
+    """주야과정명"""
     course: CourseType
     """학교과정명"""
     department: Optional[str]
     """계열명"""
-    timing: Optional[Timing]
-    """주야과정명"""
+    major: Optional[str]
+    """학과명"""
+    name: Optional[str]
+    """학급명"""
