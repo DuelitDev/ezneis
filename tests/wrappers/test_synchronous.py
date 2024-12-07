@@ -53,7 +53,7 @@ def test_get_timetable(wrapper, schools):
     cases = 0
     for i in schools:
         result = wrapper.get_timetables(
-            i.code, i.region, i.school_category.get_timetable_service())
+            i.code, i.region, i.school_category.timetable_service)
         cases += len(result)
     print(f"\t\tTotal: {cases}")
 
