@@ -68,47 +68,75 @@ class AsyncSchoolData:
             self.load_majors(reload)
         )
 
-    async def load_schedules(self, reload=False):
+    async def load_schedules(self, reload=False, *,
+                             date: Optional[str | tuple[str, str]] = None,
+                             **kwargs):
         if self._schedules is not None and not reload:
             return
-        self._schedules = SchedulesTuple(
-            await self._wrapper.get_schedules(self._code, self._region))
+        self._schedules = SchedulesTuple(await self._wrapper.get_schedules(
+            **kwargs, code=self._code, region=self._region,
+            date=date
+        ))
 
-    async def load_meals(self, reload=False):
+    async def load_meals(self, reload=False, *,
+                         date: Optional[str | tuple[str, str]] = None,
+                         **kwargs):
         if self._meals is not None and not reload:
             return
-        self._meals = MealsTuple(
-            await self._wrapper.get_meals(self._code, self._region))
+        self._meals = MealsTuple(await self._wrapper.get_meals(
+            **kwargs, code=self._code, region=self._region,
+            date=date
+        ))
 
-    async def load_classrooms(self, reload=False):
+    async def load_classrooms(self, reload=False, *,
+                              year: Optional[int] = None,
+                              grade: Optional[int] = None,
+                              **kwargs):
         if self._classrooms is not None and not reload:
             return
-        self._classrooms = ClassroomsTuple(
-            await self._wrapper.get_classrooms(self._code, self._region))
+        self._classrooms = ClassroomsTuple(await self._wrapper.get_classrooms(
+            **kwargs, code=self._code, region=self._region,
+            year=year, grade=grade,
+        ))
 
-    async def load_lecture_rooms(self, reload=False):
+    async def load_lecture_rooms(self, reload=False, *,
+                                 year: Optional[int] = None,
+                                 grade: Optional[int] = None,
+                                 semester: Optional[int] = None,
+                                 **kwargs):
         if self._lecture_rooms is not None and not reload:
             return
         self._lecture_rooms = LectureRoomsTuple(
-            await self._wrapper.get_lecture_rooms(self._code, self._region))
+            await self._wrapper.get_lecture_rooms(
+                **kwargs, code=self._code, region=self._region,
+                year=year, grade=grade, semester=semester
+        ))
 
-    async def load_timetable(self, reload=False):
+    async def load_timetable(self, reload=False, *,
+                             date: Optional[str | tuple[str, str]] = None,
+                             **kwargs):
         if self._timetables is not None and not reload:
             return
-        self._timetables = TimetablesTuple(
-            await self._wrapper.get_timetables(self._code, self._region))
+        self._timetables = TimetablesTuple(await self._wrapper.get_timetables(
+            **kwargs, code=self._code, region=self._region,
+            timetable_service=self._info.school_category.timetable_service,
+            date=date
+        ))
 
-    async def load_departments(self, reload=False):
+    async def load_departments(self, reload=False, **kwargs):
         if self._departments is not None and not reload:
             return
         self._departments = DepartmentsTuple(
-            await self._wrapper.get_departments(self._code, self._region))
+            await self._wrapper.get_departments(
+                **kwargs, code=self._code, region=self._region
+        ))
 
-    async def load_majors(self, reload=False):
+    async def load_majors(self, reload=False, **kwargs):
         if self._majors is not None and not reload:
             return
-        self._majors = MajorsTuple(
-            await self._wrapper.get_majors(self._code, self._region))
+        self._majors = MajorsTuple(await self._wrapper.get_majors(
+            **kwargs, code=self._code, region=self._region
+        ))
 
     @property
     async def info(self) -> SchoolInfo:

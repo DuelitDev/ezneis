@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Any, Optional
 from .common import *
 from ...models import *
 from ...wrappers.synchronous import SyncWrapper
@@ -60,52 +60,80 @@ class SyncSchoolData:
         self.load_schedules(reload)
         self.load_meals(reload)
         self.load_classrooms(reload)
+        self.load_meals(reload)
+        self.load_classrooms(reload)
         self.load_lecture_rooms(reload)
         self.load_timetable(reload)
         self.load_departments(reload)
         self.load_majors(reload)
 
-    def load_schedules(self, reload=False):
+    def load_schedules(self, reload=False, *,
+                       date: Optional[str | tuple[str, str]] = None,
+                       **kwargs):
         if self._schedules is not None and not reload:
             return
-        self._schedules = SchedulesTuple(
-            self._wrapper.get_schedules(self._code, self._region))
+        self._schedules = SchedulesTuple(self._wrapper.get_schedules(
+            **kwargs, code=self._code, region=self._region,
+            date=date
+        ))
 
-    def load_meals(self, reload=False):
+    def load_meals(self, reload=False, *,
+                   date: Optional[str | tuple[str, str]] = None,
+                   **kwargs):
         if self._meals is not None and not reload:
             return
-        self._meals = MealsTuple(
-            self._wrapper.get_meals(self._code, self._region))
+        self._meals = MealsTuple(self._wrapper.get_meals(
+            **kwargs, code=self._code, region=self._region,
+            date=date
+        ))
 
-    def load_classrooms(self, reload=False):
+    def load_classrooms(self, reload=False, *,
+                        year: Optional[int] = None,
+                        grade: Optional[int] = None,
+                        **kwargs):
         if self._classrooms is not None and not reload:
             return
-        self._classrooms = ClassroomsTuple(
-            self._wrapper.get_classrooms(self._code, self._region))
+        self._classrooms = ClassroomsTuple(self._wrapper.get_classrooms(
+            **kwargs, code=self._code, region=self._region,
+            year=year, grade=grade,
+        ))
 
-    def load_lecture_rooms(self, reload=False):
+    def load_lecture_rooms(self, reload=False, *,
+                           year: Optional[int] = None,
+                           grade: Optional[int] = None,
+                           semester: Optional[int] = None,
+                           **kwargs):
         if self._lecture_rooms is not None and not reload:
             return
-        self._lecture_rooms = LectureRoomsTuple(
-            self._wrapper.get_lecture_rooms(self._code, self._region))
+        self._lecture_rooms = LectureRoomsTuple(self._wrapper.get_lecture_rooms(
+            **kwargs, code=self._code, region=self._region,
+            year=year, grade=grade, semester=semester
+        ))
 
-    def load_timetable(self, reload=False):
+    def load_timetable(self, reload=False, *,
+                       date: Optional[str | tuple[str, str]] = None,
+                       **kwargs):
         if self._timetables is not None and not reload:
             return
-        self._timetables = TimetablesTuple(
-            self._wrapper.get_timetables(self._code, self._region))
+        self._timetables = TimetablesTuple(self._wrapper.get_timetables(
+            **kwargs, code=self._code, region=self._region,
+            timetable_service=self._info.school_category.timetable_service,
+            date=date
+        ))
 
-    def load_departments(self, reload=False):
+    def load_departments(self, reload=False, **kwargs):
         if self._departments is not None and not reload:
             return
-        self._departments = DepartmentsTuple(
-            self._wrapper.get_departments(self._code, self._region))
+        self._departments = DepartmentsTuple(self._wrapper.get_departments(
+            **kwargs, code=self._code, region=self._region
+        ))
 
-    def load_majors(self, reload=False):
+    def load_majors(self, reload=False, **kwargs):
         if self._majors is not None and not reload:
             return
-        self._majors = MajorsTuple(
-            self._wrapper.get_majors(self._code, self._region))
+        self._majors = MajorsTuple(self._wrapper.get_majors(
+            **kwargs, code=self._code, region=self._region
+        ))
 
     @property
     def info(self) -> SchoolInfo:
