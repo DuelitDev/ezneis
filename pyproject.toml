@@ -1,6 +1,5 @@
 [project]
 name = "ezneis"
-version = "0.1.0a0"
 authors = [
   { name="DuelitDev", email="jyoon07dev@gmail.com" },
 ]
@@ -9,7 +8,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "requests ~= 2.32.3",
-    "aiohttp ~= 3.10.10",
+    "aiohttp ~= 3.11.10",
 ]
 keywords = [ "나이스", "neis", "api", "neis-api", "parse", "asyncio" ]
 classifiers = [
@@ -21,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
 ]
+dynamic = ["version", "dependencies"]
 
 [project.urls]
 Homepage = "https://github.com/DuelitDev/ezneis"
@@ -32,6 +32,15 @@ Issues = "https://github.com/DuelitDev/ezneis/issues"
 [build-system]
 requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {file = ["VERSION"]}
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ezneis*"]
+exclude = ["tests"]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "session"
