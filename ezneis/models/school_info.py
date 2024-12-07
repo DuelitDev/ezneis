@@ -30,6 +30,10 @@ class FoundationType(Enum):
     """공립 학교입니다."""
     PRIVATE     = "PRIVATE"
     """사립 학교입니다."""
+    NATIONAL    = "NATIONAL"
+    """국립 학교입니다."""
+    OTHERS      = "OTHERS"
+    """기타 설립 학교입니다."""
 
 
 # noinspection SpellCheckingInspection
@@ -135,9 +139,9 @@ class SchoolInfo:
     """학교 종류명"""
     jurisdiction_name: str
     """관할 조직명"""
-    foundation_type: Optional[FoundationType]
+    foundation_type: FoundationType
     """설립명"""
-    zip_code: int
+    zip_code: Optional[str]
     """도로명 우편 번호"""
     address: Optional[str]
     """도로명 주소"""
