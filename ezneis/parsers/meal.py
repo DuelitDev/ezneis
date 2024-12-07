@@ -16,7 +16,8 @@ class MealParser(Parser):
     @classmethod
     def from_json(cls, data: dict) -> Meal:
         dishes = []
-        for dish in data["DDISH_NM"].split("<br/>"):
+        raw = r.split("<br/>") if (r := data["DDISH_NM"]) is not None else []
+        for dish in raw:
             name, *_, info = dish.split(' ')
             name = name.replace('*', '').replace('@', '')
             allergies = tuple(Allergy(int(x)) for x in
@@ -24,14 +25,16 @@ class MealParser(Parser):
             dishes.append(Dish(name=name, allergies=allergies))
         dishes = tuple(dishes)
         nutrients = []
-        for ntr in data["NTR_INFO"].split("<br/>"):
+        raw = r.split("<br/>") if (r := data["NTR_INFO"]) is not None else []
+        for ntr in raw:
             tmp, value = ntr.split(" : ")
             name = tmp[:tmp.find('(')].strip()
             unit = UNIT_PATTERN.findall(ntr)[0]
             nutrients.append(Nutrient(name=name, unit=unit, value=float(value)))
         nutrients = tuple(nutrients)
         origins = []
-        for org in data["ORPLC_INFO"].split("<br/>"):
+        raw = r.split("<br/>") if (r := data["ORPLC_INFO"]) is not None else []
+        for org in raw:
             name, country = org.rsplit(" : ", 1)
             origins.append(Origin(name=name, origin=country))
         origins = tuple(origins)
