@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from datetime import datetime
 from functools import cached_property
 from ...models import (Schedule, Meal, Classroom, LectureRoom, Timetable,
                        Department, Major)
@@ -53,6 +54,11 @@ class MealsTuple(tuple[Meal, ...]):
     @cached_property
     def sundays(self) -> MealsTuple:
         return MealsTuple(i for i in self if i.date.weekday() == 6)
+
+    @cached_property
+    def today(self) -> MealsTuple:
+        today = datetime.now().date()
+        return MealsTuple(i for i in self if i.date == today)
 
     @cached_property
     def breakfasts(self) -> MealsTuple:
@@ -238,6 +244,11 @@ class TimetablesTuple(tuple[Timetable, ...]):
     @cached_property
     def sundays(self) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.date.weekday() == 6)
+
+    @cached_property
+    def today(self) -> TimetablesTuple:
+        today = datetime.now().date()
+        return TimetablesTuple(i for i in self if i.date == today)
 
     def filter_by_period(self, period: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.period == period)
