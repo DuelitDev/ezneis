@@ -3,6 +3,7 @@ from enum import Enum
 
 
 __all__ = [
+    "InternalServiceCode",
     "InternalServiceError",
     "ServiceUnavailableError",
     "DataNotFoundException",
