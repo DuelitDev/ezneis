@@ -11,6 +11,7 @@ pip install -U ezneis
 - 동기, 비동기(`asyncio`) 모두 지원
 - 모든 데이터를 알맞은 자료형으로 변환 (파싱 지원)
 - 지연된 불러오기(`lazy loading`) 구현
+
 ---
 # 시작하기
 ```python
@@ -74,10 +75,12 @@ asyncio.run(main())
 
 선택적으로 [aiodns](https://pypi.org/project/aiodns/) 라이브러리를 설치할 수 있습니다
 (속도 향상을 위해 적극 권장됨, aiohttp README에서 발췌).
+
 ---
 # 비슷한 프로젝트
 - [neispy](https://pypi.org/project/neispy/)
   - 이 라이브러리는 `neispy`에서 영감을 받았습니다.
+
 ---
 # 라이선스
 `ezneis`는 MIT 라이선스 하에 제공됩니다.
