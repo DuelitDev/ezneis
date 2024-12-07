@@ -57,7 +57,8 @@ class SchoolCategory(Enum):
     OTHERS     = "OTHERS"
     """기타 종류의 학교입니다."""
 
-    def get_timetable_service(self) -> Optional[Services]:
+    @property
+    def timetable_service(self) -> Optional[Services]:
         """
         열거형이 속하는 시간표 서비스 열거형을 반환합니다.
         가령, `HIGH`, `SEC_HIGH`, `MISC_HIGH`는 `Services.TIMETABLE_H`를
