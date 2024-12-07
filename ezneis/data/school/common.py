@@ -17,7 +17,81 @@ __all__ = [
 
 
 class SchedulesTuple(tuple[Schedule, ...]):
-    pass
+    def filter_by_year(self, year: int) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.year == year)
+
+    def filter_by_grade(self, grade: int) -> SchedulesTuple:
+        if not 0 <= grade <= 7:
+            raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
+        return SchedulesTuple(i for i in self if i.correspondence[grade])
+
+    @cached_property
+    def grade0(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade0)
+
+    @cached_property
+    def grade1(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade1)
+
+    @cached_property
+    def grade2(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade2)
+
+    @cached_property
+    def grade3(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade3)
+
+    @cached_property
+    def grade4(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade4)
+
+    @cached_property
+    def grade5(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade5)
+
+    @cached_property
+    def grade6(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade6)
+
+    @cached_property
+    def grade7(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.correspondence.grade7)
+
+    def filter_by_weekday(self, weekday: int) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == weekday)
+
+    @cached_property
+    def mondays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 0)
+
+    @cached_property
+    def tuesdays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 1)
+
+    @cached_property
+    def wednesdays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 2)
+
+    @cached_property
+    def thursdays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 3)
+
+    @cached_property
+    def fridays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 4)
+
+    @cached_property
+    def saturdays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 5)
+
+    @cached_property
+    def sundays(self) -> SchedulesTuple:
+        return SchedulesTuple(i for i in self if i.date.weekday() == 6)
+
+    @cached_property
+    def today(self) -> SchedulesTuple:
+        today = datetime.now().date()
+        return SchedulesTuple(i for i in self if i.date == today)
 
 
 class MealsTuple(tuple[Meal, ...]):
@@ -78,6 +152,8 @@ class ClassroomsTuple(tuple[Classroom, ...]):
         return ClassroomsTuple(i for i in self if i.year == year)
 
     def filter_by_grade(self, grade: int) -> ClassroomsTuple:
+        if not 0 <= grade <= 7:
+            raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
         return ClassroomsTuple(i for i in self if i.grade == grade)
 
     @cached_property
@@ -118,6 +194,8 @@ class LectureRoomsTuple(tuple[LectureRoom, ...]):
         return LectureRoomsTuple(i for i in self if i.year == year)
 
     def filter_by_grade(self, grade: int) -> LectureRoomsTuple:
+        if not 0 <= grade <= 7:
+            raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
         return LectureRoomsTuple(i for i in self if i.grade == grade)
 
     @cached_property
@@ -169,6 +247,8 @@ class TimetablesTuple(tuple[Timetable, ...]):
         return TimetablesTuple(i for i in self if i.date.year == year)
 
     def filter_by_grade(self, grade: int) -> TimetablesTuple:
+        if not 0 <= grade <= 7:
+            raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
         return TimetablesTuple(i for i in self if i.grade == grade)
 
     @cached_property
