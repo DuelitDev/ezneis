@@ -10,6 +10,9 @@ __all__ = [
 ]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Timetable:
     semester: int
