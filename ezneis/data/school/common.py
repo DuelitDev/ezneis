@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 from datetime import datetime
-from functools import cached_property, lru_cache
+from functools import cached_property
 from ...models import (Schedule, Meal, Classroom, LectureRoom, Timetable,
                        Department, Major)
+from ...utils.caches import lru_cache_instance
 
 __all__ = [
     "SchedulesTuple",
@@ -19,11 +20,11 @@ MAX_CACHE = 20
 
 
 class SchedulesTuple(tuple[Schedule, ...]):
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.date.year == year)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> SchedulesTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -61,7 +62,7 @@ class SchedulesTuple(tuple[Schedule, ...]):
     def grade7(self) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.correspondence.grade7)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -100,11 +101,11 @@ class SchedulesTuple(tuple[Schedule, ...]):
 
 
 class MealsTuple(tuple[Meal, ...]):
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> MealsTuple:
         return MealsTuple(i for i in self if i.date.year == year)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> MealsTuple:
         return MealsTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -155,11 +156,11 @@ class MealsTuple(tuple[Meal, ...]):
 
 
 class ClassroomsTuple(tuple[Classroom, ...]):
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> ClassroomsTuple:
         return ClassroomsTuple(i for i in self if i.year == year)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> ClassroomsTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -197,13 +198,17 @@ class ClassroomsTuple(tuple[Classroom, ...]):
     def grade7(self) -> ClassroomsTuple:
         return ClassroomsTuple(i for i in self if i.grade == 7)
 
+    @lru_cache_instance(maxsize=MAX_CACHE)
+    def filter_by_name(self, name: str | int) -> ClassroomsTuple:
+        return ClassroomsTuple(i for i in self if i.name == str(name))
+
 
 class LectureRoomsTuple(tuple[LectureRoom, ...]):
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.year == year)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> LectureRoomsTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -241,7 +246,7 @@ class LectureRoomsTuple(tuple[LectureRoom, ...]):
     def grade7(self) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.grade == 7)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_semester(self, semester: int) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.semester == semester)
 
@@ -253,13 +258,17 @@ class LectureRoomsTuple(tuple[LectureRoom, ...]):
     def fall_semester(self) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.semester == 2)
 
+    @lru_cache_instance(maxsize=MAX_CACHE)
+    def filter_by_name(self, name: str | int) -> LectureRoomsTuple:
+        return LectureRoomsTuple(i for i in self if i.name == str(name))
+
 
 class TimetablesTuple(tuple[Timetable, ...]):
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.date.year == year)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> TimetablesTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -308,7 +317,7 @@ class TimetablesTuple(tuple[Timetable, ...]):
     def fall_semester(self) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.semester == 2)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -345,7 +354,16 @@ class TimetablesTuple(tuple[Timetable, ...]):
         today = datetime.now().date()
         return TimetablesTuple(i for i in self if i.date == today)
 
-    @lru_cache(maxsize=MAX_CACHE)
+    @lru_cache_instance(maxsize=MAX_CACHE)
+    def filter_by_classroom_name(self, name: str | int) -> TimetablesTuple:
+        return TimetablesTuple(i for i in self if i.classroom_name == str(name))
+
+    @lru_cache_instance(maxsize=MAX_CACHE)
+    def filter_by_lecture_room_name(self, name: str | int) -> TimetablesTuple:
+        return TimetablesTuple(
+            i for i in self if i.lecture_room_name == str(name))
+
+    @lru_cache_instance(maxsize=MAX_CACHE)
     def filter_by_period(self, period: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.period == period)
 
