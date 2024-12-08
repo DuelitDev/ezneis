@@ -74,7 +74,7 @@ asyncio.run(main())
 - [requests](https://pypi.org/project/requests/)
 
 선택적으로 [aiodns](https://pypi.org/project/aiodns/) 라이브러리를 설치할 수 있습니다
-(속도 향상을 위해 적극 권장됨, aiohttp README에서 발췌).
+(성능 향상을 위해 적극 권장됨, aiohttp README에서 발췌).
 
 ---
 # 비슷한 프로젝트
