@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Optional
 from .common import *
 from ...models import *
 from ...wrappers.synchronous import SyncWrapper
