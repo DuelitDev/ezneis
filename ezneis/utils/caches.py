@@ -6,6 +6,7 @@ from time import time
 from weakref import ref
 
 __all__ = [
+    "lru_cache_instance",
     "ttl_cache"
 ]
 
