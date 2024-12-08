@@ -6,7 +6,7 @@ from typing import Optional
 from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
 from ..exceptions import (InternalServiceCode, InternalServiceError,
                           ServiceUnavailableError, SessionClosedException)
-from ..utils.ttl_cache import ttl_cache
+from ..utils.caches import ttl_cache
 
 __all__ = [
     "SyncSession",

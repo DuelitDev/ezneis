@@ -1,12 +1,42 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-from functools import wraps
+from functools import wraps, lru_cache
 from inspect import iscoroutinefunction
 from time import time
+from weakref import ref
 
 __all__ = [
     "ttl_cache"
 ]
+
+
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
+def lru_cache_instance(maxsize=128, typed=False):
+    """
+    LRU 알고리즘에 기반하여 인스턴스 단위의 캐시를 구현한 데코레이터입니다.
+
+    functools의 lru_cache와 동일하게 동작합니다.
+
+    :param maxsize:
+    :param typed:
+    :return: LRU 캐시 데코레이터.
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            self_weak = ref(self)
+
+            @wraps(func)
+            @lru_cache(maxsize=maxsize, typed=typed)
+            def cached_method(*args2, **kwargs2):
+                return func(self_weak(), *args2, **kwargs2)
+
+            setattr(self, func.__name__, cached_method)
+            return cached_method(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 # noinspection SpellCheckingInspection
