@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 from datetime import datetime
-from functools import cached_property
+from functools import cached_property, lru_cache
 from ...models import (Schedule, Meal, Classroom, LectureRoom, Timetable,
                        Department, Major)
 
@@ -15,11 +15,15 @@ __all__ = [
     "MajorsTuple"
 ]
 
+MAX_CACHE = 20
+
 
 class SchedulesTuple(tuple[Schedule, ...]):
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.date.year == year)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> SchedulesTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -57,6 +61,7 @@ class SchedulesTuple(tuple[Schedule, ...]):
     def grade7(self) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.correspondence.grade7)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> SchedulesTuple:
         return SchedulesTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -95,9 +100,11 @@ class SchedulesTuple(tuple[Schedule, ...]):
 
 
 class MealsTuple(tuple[Meal, ...]):
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> MealsTuple:
         return MealsTuple(i for i in self if i.date.year == year)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> MealsTuple:
         return MealsTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -148,9 +155,11 @@ class MealsTuple(tuple[Meal, ...]):
 
 
 class ClassroomsTuple(tuple[Classroom, ...]):
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> ClassroomsTuple:
         return ClassroomsTuple(i for i in self if i.year == year)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> ClassroomsTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -190,9 +199,11 @@ class ClassroomsTuple(tuple[Classroom, ...]):
 
 
 class LectureRoomsTuple(tuple[LectureRoom, ...]):
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.year == year)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> LectureRoomsTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -230,6 +241,7 @@ class LectureRoomsTuple(tuple[LectureRoom, ...]):
     def grade7(self) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.grade == 7)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_semester(self, semester: int) -> LectureRoomsTuple:
         return LectureRoomsTuple(i for i in self if i.semester == semester)
 
@@ -243,9 +255,11 @@ class LectureRoomsTuple(tuple[LectureRoom, ...]):
 
 
 class TimetablesTuple(tuple[Timetable, ...]):
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_year(self, year: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.date.year == year)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_grade(self, grade: int) -> TimetablesTuple:
         if not 0 <= grade <= 7:
             raise ValueError("학년은 반드시 0 이상 7이하여야 합니다.")
@@ -294,6 +308,7 @@ class TimetablesTuple(tuple[Timetable, ...]):
     def fall_semester(self) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.semester == 2)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_weekday(self, weekday: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.date.weekday() == weekday)
 
@@ -330,6 +345,7 @@ class TimetablesTuple(tuple[Timetable, ...]):
         today = datetime.now().date()
         return TimetablesTuple(i for i in self if i.date == today)
 
+    @lru_cache(maxsize=MAX_CACHE)
     def filter_by_period(self, period: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.period == period)
 
