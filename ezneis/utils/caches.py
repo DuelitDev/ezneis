@@ -7,9 +7,6 @@ from time import time
 __all__ = ["ttl_cache"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 def _deep_freeze(value: dict | list | set):
     """
     입력 값을 재귀적으로 해시 가능한 형태로 변환합니다.
@@ -28,9 +25,6 @@ def _deep_freeze(value: dict | list | set):
     return value
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 def ttl_cache(ttl: int, maxsize: int = 64, is_method: bool = False):
     """
     TTL(Time-To-Live) 캐시를 구현한 데코레이터입니다.

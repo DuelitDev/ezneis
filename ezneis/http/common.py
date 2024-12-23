@@ -17,9 +17,6 @@ MAX_CACHE = 64
 TIME_TO_LIVE = 86400
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class Services(Enum):
     """
     나이스 교육정보 OPEN API 서비스 엔드포인트 열거형입니다.

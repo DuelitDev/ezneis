@@ -7,9 +7,6 @@ from ..http.common import Services
 __all__ = ["CourseType", "SchoolCategory", "Timing"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class CourseType(Enum):
     """
     학교 과정의 유형을 나타내는 열거형입니다.
@@ -27,9 +24,6 @@ class CourseType(Enum):
     """특수학교 과정입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class SchoolCategory(Enum):
     """
     학교 종류를 나타내는 열거형입니다.
@@ -82,9 +76,6 @@ class SchoolCategory(Enum):
                 return None
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class Timing(Enum):
     """
     주야 과정을 나타내는 열거형입니다.

@@ -5,9 +5,6 @@ from .common import Parser
 __all__ = ["MajorParser"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class MajorParser(Parser):
     @classmethod
     def from_json(cls, data: dict) -> Major:

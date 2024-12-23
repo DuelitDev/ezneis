@@ -20,9 +20,6 @@ __all__ = [
 ]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class FoundationType(Enum):
     """
     학교 설립 구분 열거형입니다.
@@ -38,9 +35,6 @@ class FoundationType(Enum):
     """기타 설립 학교입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class HighSchoolCategory(Enum):
     """
     고등학교 일반, 전문 구분 열거형입니다.
@@ -52,9 +46,6 @@ class HighSchoolCategory(Enum):
     """전문계 고등학교입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class HighSchoolSubtype(Enum):
     """
     고등학교 계열 열거형입니다.
@@ -72,9 +63,6 @@ class HighSchoolSubtype(Enum):
     """기타 고등학교입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class SchoolPurpose(Enum):
     """
     특수 목적 고등학교 계열 열거형입니다.
@@ -94,9 +82,6 @@ class SchoolPurpose(Enum):
     """산업 수요 맞춤형 특수 목적 고등학교입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class AdmissionPeriod(Enum):
     """
     입시 전기, 후기 구분 열거형입니다.
@@ -110,9 +95,6 @@ class AdmissionPeriod(Enum):
     """전후기 입시 유형입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class GenderComposition(Enum):
     """
     단성, 혼성 구분 열거형입니다.
@@ -126,9 +108,6 @@ class GenderComposition(Enum):
     """여자 단성 학교입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class SchoolInfo:
     """

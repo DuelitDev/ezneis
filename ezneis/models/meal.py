@@ -6,9 +6,6 @@ from enum import Enum
 __all__ = ["Allergy", "MealTime", "Dish", "Nutrient", "Origin", "Meal"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class Allergy(Enum):
     """
     식품 알레르기 열거형입니다.
@@ -54,9 +51,6 @@ class Allergy(Enum):
     """잣에 의한 식품 알레르기입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class MealTime(Enum):
     """
     급식 시간 열거형입니다.
@@ -70,9 +64,6 @@ class MealTime(Enum):
     """석식입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Dish:
     """
@@ -85,9 +76,6 @@ class Dish:
     """요리에 의한 발생 가능성이 있는 식품 알레르기입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Nutrient:
     """
@@ -102,9 +90,6 @@ class Nutrient:
     """양입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Origin:
     """
@@ -117,9 +102,6 @@ class Origin:
     """원산지 이름입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Meal:
     """

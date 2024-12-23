@@ -4,9 +4,6 @@ from enum import Enum
 __all__ = ["Region"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class Region(Enum):
     """
     시도교육청코드 열거형입니다.

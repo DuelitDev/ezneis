@@ -9,9 +9,6 @@ from .common import Timing
 __all__ = ["ScheduleCategory", "Timing", "GradeCorrespondence", "Schedule"]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class ScheduleCategory(Enum):
     """
     행사 유형 열거형입니다.
@@ -23,9 +20,6 @@ class ScheduleCategory(Enum):
     """공휴일입니다."""
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class GradeCorrespondence:
     """
@@ -62,9 +56,6 @@ class GradeCorrespondence:
         )[indices]
 
 
-# noinspection SpellCheckingInspection
-# noinspection GrazieInspection
-# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 @dataclass(frozen=True)
 class Schedule:
     """
