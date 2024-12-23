@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import aiohttp
 import asyncio
 from typing import Optional
-from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
-from ..exceptions import (InternalServiceCode, InternalServiceError,
-                          ServiceUnavailableError, SessionClosedException)
+
+import aiohttp
+
+from ..exceptions import (
+    InternalServiceCode,
+    InternalServiceError,
+    ServiceUnavailableError,
+    SessionClosedException,
+)
 from ..utils.caches import ttl_cache
+from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
 
 __all__ = [
     "AsyncSession",
@@ -41,8 +47,9 @@ class AsyncSession:
         return self._session.closed and self._closed
 
     @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE, is_method=True)
-    async def get(self, service: Services, *, hint: Optional[int] = None,
-                  **kwargs) -> list[dict]:
+    async def get(
+        self, service: Services, *, hint: Optional[int] = None, **kwargs
+    ) -> list[dict]:
         if self.closed:
             raise SessionClosedException
         url = urljoin(BASE_URL, service.value)
@@ -50,8 +57,9 @@ class AsyncSession:
             **kwargs,
             "KEY": self._key,
             "Type": "json",
-            "pSize": (hint if hint and hint <= self._maximum_req
-                      else self._maximum_req),
+            "pSize": (
+                hint if hint and hint <= self._maximum_req else self._maximum_req
+            ),
         }
         buffer = []
         remaining = hint
@@ -79,15 +87,17 @@ class AsyncSession:
                 return row
 
         if hint is not None:
-            pages = (remaining // self._maximum_req
-                     + int(remaining % self._maximum_req != 0))
+            pages = remaining // self._maximum_req + int(
+                remaining % self._maximum_req != 0
+            )
             tasks = [task(p) for p in range(1, pages + 1)]
         else:
             buffer.extend(await task())
             if remaining <= 0:
                 return buffer
-            pages = (remaining // self._maximum_req
-                     + int(remaining % self._maximum_req != 0))
+            pages = remaining // self._maximum_req + int(
+                remaining % self._maximum_req != 0
+            )
             tasks = [task(p) for p in range(2, pages + 2)]
         for t in await asyncio.gather(*tasks):
             buffer.extend(t)

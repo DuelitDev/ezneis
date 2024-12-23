@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
+
 from .common import Timing
 
-__all__ = [
-    "Timing",
-    "Department"
-]
+__all__ = ["Timing", "Department"]
 
 
 # noinspection SpellCheckingInspection
@@ -16,6 +14,7 @@ class Department:
     """
     학과 계열 정보를 나타내는 데이터 클래스입니다.
     """
+
     timing: Timing
     """주야과정명"""
     name: str

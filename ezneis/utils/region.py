@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
 
-__all__ = [
-    "Region"
-]
+__all__ = ["Region"]
 
 
 # noinspection SpellCheckingInspection
@@ -13,6 +11,7 @@ class Region(Enum):
     """
     시도교육청코드 열거형입니다.
     """
+
     SEOUL = "B10"
     """서울특별시의 시도교육청코드 "B10"입니다."""
     BUSAN = "C10"

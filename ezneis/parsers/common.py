@@ -2,9 +2,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
 
-__all__ = [
-    "Parser"
-]
+__all__ = ["Parser"]
 
 
 class Parser(metaclass=ABCMeta):

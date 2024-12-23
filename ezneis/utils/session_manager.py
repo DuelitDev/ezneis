@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import atexit
 import asyncio
-from ..http import SyncSession, AsyncSession
-from ..wrappers import SyncWrapper, AsyncWrapper
+import atexit
 
-__all__ = [
-    "SessionManager"
-]
+from ..http import AsyncSession, SyncSession
+from ..wrappers import AsyncWrapper, SyncWrapper
+
+__all__ = ["SessionManager"]
 
 
 # noinspection SpellCheckingInspection
@@ -19,6 +18,7 @@ class SessionManager:
     Session Wrapper를 생성하고, 필요하지 않을 때 세션을 정리할 수 있습니다.
     또한, 프로그램 종료 시 자동으로 세션이 정리되도록 설계되어 있습니다.
     """
+
     def __init__(self):
         # 동기 Session 및 Wrapper
         self._sync_session = None

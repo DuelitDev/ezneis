@@ -2,12 +2,10 @@
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional
+
 from .common import Timing
 
-__all__ = [
-    "Timing",
-    "Timetable"
-]
+__all__ = ["Timing", "Timetable"]
 
 
 # noinspection SpellCheckingInspection

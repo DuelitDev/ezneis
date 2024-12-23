@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass
 from typing import Optional
+
 from .common import CourseType, Timing
 
-__all__ = [
-    "CourseType",
-    "Timing",
-    "LectureRoom"
-]
+__all__ = ["CourseType", "Timing", "LectureRoom"]
 
 
 # noinspection SpellCheckingInspection
@@ -18,6 +15,7 @@ class LectureRoom:
     """
     시간표 강의실 정보를 나타내는 데이터 클래스입니다.
     """
+
     year: int
     """학년도"""
     grade: int

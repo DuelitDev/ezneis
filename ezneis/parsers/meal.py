@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from re import compile as regexp_compile
-from .common import Parser
-from ..models.meal import *
 
-__all__ = [
-    "MealParser"
-]
+from ..models.meal import *
+from .common import Parser
+
+__all__ = ["MealParser"]
 
 KCAL_PATTERN = regexp_compile(r"[0-9]*[.][0-9]")
 UNIT_PATTERN = regexp_compile(r"\((.*?)\)")
@@ -18,17 +17,16 @@ class MealParser(Parser):
         dishes = []
         raw = r.split("<br/>") if (r := data["DDISH_NM"]) is not None else []
         for dish in raw:
-            name, *_, info = dish.split(' ')
-            name = name.replace('*', '').replace('@', '')
-            allergies = tuple(Allergy(int(x)) for x in
-                              info[1:-1].split('.') if x)
+            name, *_, info = dish.split(" ")
+            name = name.replace("*", "").replace("@", "")
+            allergies = tuple(Allergy(int(x)) for x in info[1:-1].split(".") if x)
             dishes.append(Dish(name=name, allergies=allergies))
         dishes = tuple(dishes)
         nutrients = []
         raw = r.split("<br/>") if (r := data["NTR_INFO"]) is not None else []
         for ntr in raw:
             tmp, value = ntr.split(" : ")
-            name = tmp[:tmp.find('(')].strip()
+            name = tmp[: tmp.find("(")].strip()
             unit = UNIT_PATTERN.findall(ntr)[0]
             nutrients.append(Nutrient(name=name, unit=unit, value=float(value)))
         nutrients = tuple(nutrients)
@@ -49,5 +47,5 @@ class MealParser(Parser):
             headcount=headcount,
             kcal=kcal,
             date=date,
-            time=time
+            time=time,
         )

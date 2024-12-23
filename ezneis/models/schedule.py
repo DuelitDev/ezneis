@@ -3,14 +3,10 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 from typing import Optional, SupportsIndex
+
 from .common import Timing
 
-__all__ = [
-    "ScheduleCategory",
-    "Timing",
-    "GradeCorrespondence",
-    "Schedule"
-]
+__all__ = ["ScheduleCategory", "Timing", "GradeCorrespondence", "Schedule"]
 
 
 # noinspection SpellCheckingInspection
@@ -20,6 +16,7 @@ class ScheduleCategory(Enum):
     """
     행사 유형 열거형입니다.
     """
+
     DAY_OFF = "DAY_OFF"
     """휴업일입니다."""
     HOLIDAY = "HOLIDAY"
@@ -34,6 +31,7 @@ class GradeCorrespondence:
     """
     행사에 해당하는 학년을 나타내는 데이터 클래스입니다.
     """
+
     grade0: bool
     """0학년의 행사 해당 여부입니다."""
     grade1: bool
@@ -52,8 +50,16 @@ class GradeCorrespondence:
     """7학년의 행사 해당 여부입니다."""
 
     def __getitem__(self, indices: slice | SupportsIndex) -> tuple[bool, ...]:
-        return (self.grade0, self.grade1, self.grade2, self.grade3,
-                self.grade4, self.grade5, self.grade6, self.grade7)[indices]
+        return (
+            self.grade0,
+            self.grade1,
+            self.grade2,
+            self.grade3,
+            self.grade4,
+            self.grade5,
+            self.grade6,
+            self.grade7,
+        )[indices]
 
 
 # noinspection SpellCheckingInspection
@@ -64,6 +70,7 @@ class Schedule:
     """
     학사 일정을 나타내는 데이터 클래스입니다.
     """
+
     year: int
     """학년도"""
     time: Optional[Timing]

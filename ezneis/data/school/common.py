@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from datetime import datetime
 from functools import cached_property
-from ...models import (Schedule, Meal, Classroom, LectureRoom, Timetable,
-                       Department, Major)
+
+from ...models import (Classroom, Department, LectureRoom, Major, Meal,
+                       Schedule, Timetable)
 
 __all__ = [
     "SchedulesTuple",
@@ -12,7 +14,7 @@ __all__ = [
     "LectureRoomsTuple",
     "TimetablesTuple",
     "DepartmentsTuple",
-    "MajorsTuple"
+    "MajorsTuple",
 ]
 
 MAX_CACHE = 20
@@ -342,8 +344,7 @@ class TimetablesTuple(tuple[Timetable, ...]):
         return TimetablesTuple(i for i in self if i.classroom_name == str(name))
 
     def filter_by_lecture_room_name(self, name: str | int) -> TimetablesTuple:
-        return TimetablesTuple(
-            i for i in self if i.lecture_room_name == str(name))
+        return TimetablesTuple(i for i in self if i.lecture_room_name == str(name))
 
     def filter_by_period(self, period: int) -> TimetablesTuple:
         return TimetablesTuple(i for i in self if i.period == period)

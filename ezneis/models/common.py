@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
 from typing import Optional
+
 from ..http.common import Services
 
-__all__ = [
-    "CourseType",
-    "SchoolCategory",
-    "Timing"
-]
+__all__ = ["CourseType", "SchoolCategory", "Timing"]
 
 
 # noinspection SpellCheckingInspection
@@ -17,13 +14,14 @@ class CourseType(Enum):
     """
     학교 과정의 유형을 나타내는 열거형입니다.
     """
-    PRESCHOOL  = "PRESCHOOL"
+
+    PRESCHOOL = "PRESCHOOL"
     """유치원 과정입니다."""
     ELEMENTARY = "ELEMENTARY"
     """초등학교 과정입니다."""
-    MIDDLE     = "MIDDLE"
+    MIDDLE = "MIDDLE"
     """중학교 과정입니다."""
-    HIGH       = "HIGH"
+    HIGH = "HIGH"
     """고등학교 과정입니다."""
     SPECIALITY = "SPECIALITY"
     """특수학교 과정입니다."""
@@ -36,25 +34,26 @@ class SchoolCategory(Enum):
     """
     학교 종류를 나타내는 열거형입니다.
     """
+
     ELEMENTARY = "ELEMENTARY"
     """초등학교입니다."""
-    MIDDLE     = "MIDDLE"
+    MIDDLE = "MIDDLE"
     """중학교입니다."""
-    HIGH       = "HIGH"
+    HIGH = "HIGH"
     """고등학교입니다."""
-    SEC_MID    = "SEC_MID"
+    SEC_MID = "SEC_MID"
     """방송 통신 중학교입니다."""
-    SEC_HIGH   = "SEC_HIGH"
+    SEC_HIGH = "SEC_HIGH"
     """방송 통신 고등학교입니다."""
-    MISC_ELE   = "MISC_ELE"
+    MISC_ELE = "MISC_ELE"
     """초등학교 과정 각종 학교입니다."""
-    MISC_MID   = "MISC_MID"
+    MISC_MID = "MISC_MID"
     """중학교 과정 각종 학교입니다."""
-    MISC_HIGH  = "MISC_HIGH"
+    MISC_HIGH = "MISC_HIGH"
     """고등학교 과정 각종 학교입니다."""
-    SPECIAL    = "SPECIAL"
+    SPECIAL = "SPECIAL"
     """특수 학교입니다."""
-    OTHERS     = "OTHERS"
+    OTHERS = "OTHERS"
     """기타 종류의 학교입니다."""
 
     @property
@@ -67,11 +66,13 @@ class SchoolCategory(Enum):
         :return: Services
         """
         match self:
-            case (SchoolCategory.HIGH | SchoolCategory.SEC_HIGH |
-                  SchoolCategory.MISC_HIGH):
+            case (
+                SchoolCategory.HIGH | SchoolCategory.SEC_HIGH | SchoolCategory.MISC_HIGH
+            ):
                 return Services.TIMETABLES_H
-            case (SchoolCategory.MIDDLE | SchoolCategory.SEC_MID |
-                  SchoolCategory.MISC_MID):
+            case (
+                SchoolCategory.MIDDLE | SchoolCategory.SEC_MID | SchoolCategory.MISC_MID
+            ):
                 return Services.TIMETABLES_M
             case SchoolCategory.ELEMENTARY | SchoolCategory.MISC_ELE:
                 return Services.TIMETABLES_E
@@ -88,11 +89,12 @@ class Timing(Enum):
     """
     주야 과정을 나타내는 열거형입니다.
     """
-    DAY   = "DAY"
+
+    DAY = "DAY"
     """주간 과정입니다."""
     NIGHT = "NIGHT"
     """야간 과정입니다."""
-    BOTH  = "BOTH"
+    BOTH = "BOTH"
     """주간과 야간을 모두 포함하는 과정입니다."""
     INDUSTRY_SPECIAL = "INDUSTRY_SPECIAL"
     """산업체 특별 과정입니다."""

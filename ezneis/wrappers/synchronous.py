@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from typing import Optional
+
 from ..http.common import Services
 from ..http.synchronous import SyncSession
-from ..models import (SchoolInfo, Schedule, Meal, Classroom, LectureRoom,
-                      Timetable, Department, Major)
-from ..parsers import (SchoolInfoParser, ScheduleParser, MealParser,
-                       LectureRoomParser, ClassroomParser, TimetableParser,
-                       DepartmentParser, MajorParser)
+from ..models import (Classroom, Department, LectureRoom, Major, Meal,
+                      Schedule, SchoolInfo, Timetable)
+from ..parsers import (ClassroomParser, DepartmentParser, LectureRoomParser,
+                       MajorParser, MealParser, ScheduleParser,
+                       SchoolInfoParser, TimetableParser)
 from ..utils.region import Region
 
-__all__ = [
-    "SyncWrapper"
-]
+__all__ = ["SyncWrapper"]
 
 
 class SyncWrapper:
     def __init__(self, session: SyncSession):
         self._session = session
 
-    def get_school_info(self, code: str, region: Optional[Region] = None,
-                        **kwargs) -> tuple[SchoolInfo, ...]:
+    def get_school_info(
+        self, code: str, region: Optional[Region] = None, **kwargs
+    ) -> tuple[SchoolInfo, ...]:
         """
         Fetches the school info from school name.
 
@@ -28,8 +28,9 @@ class SyncWrapper:
         :param region: The region of the school.
         :return: Tuple of school info.
         """
-        is_code = len(code) == 7 and (code.isdigit() or
-                                      code[0] == "C" and code[1:].isdigit())
+        is_code = len(code) == 7 and (
+            code.isdigit() or code[0] == "C" and code[1:].isdigit()
+        )
         params = {
             "service": Services.SCHOOL_INFO,
             "ATPT_OFCDC_SC_CODE": region.value if region is not None else "",
@@ -38,9 +39,13 @@ class SyncWrapper:
         data = self._session.get(**kwargs, **params)
         return tuple(SchoolInfoParser.from_json(i) for i in data)
 
-    def get_schedules(self, code: str, region: Region,
-                      date: Optional[str | tuple[str, str]] = None,
-                      **kwargs) -> tuple[Schedule, ...]:
+    def get_schedules(
+        self,
+        code: str,
+        region: Region,
+        date: Optional[str | tuple[str, str]] = None,
+        **kwargs
+    ) -> tuple[Schedule, ...]:
         if date is None:
             now = datetime.today()
             start_date = now.replace(day=1).strftime("%Y%m%d")
@@ -56,18 +61,25 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         data = self._session.get(
-            **kwargs, service=Services.SCHEDULES,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            AA_FROM_YMD=start_date, AA_TO_YMD=end_date
+            **kwargs,
+            service=Services.SCHEDULES,
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value,
+            AA_FROM_YMD=start_date,
+            AA_TO_YMD=end_date
         )
         return tuple(ScheduleParser.from_json(i) for i in data)
 
-    def get_meals(self, code: str, region: Region,
-                  date: Optional[str | tuple[str, str]] = None,
-                  **kwargs) -> tuple[Meal, ...]:
+    def get_meals(
+        self,
+        code: str,
+        region: Region,
+        date: Optional[str | tuple[str, str]] = None,
+        **kwargs
+    ) -> tuple[Meal, ...]:
         if date is None:
             today = datetime.today()
-            temp = (today - timedelta(days=today.weekday()))
+            temp = today - timedelta(days=today.weekday())
             end_date = (temp + timedelta(days=6)).strftime("%Y%m%d")
             start_date = temp.strftime("%Y%m%d")
         elif isinstance(date, str):
@@ -77,46 +89,68 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         data = self._session.get(
-            **kwargs, service=Services.MEALS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            MLSV_FROM_YMD=start_date, MLSV_TO_YMD=end_date
+            **kwargs,
+            service=Services.MEALS,
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value,
+            MLSV_FROM_YMD=start_date,
+            MLSV_TO_YMD=end_date
         )
         return tuple(MealParser.from_json(i) for i in data)
 
-    def get_classrooms(self, code: str, region: Region,
-                       year: Optional[int] = None,
-                       grade: Optional[int] = None,
-                       **kwargs) -> tuple[Classroom, ...]:
+    def get_classrooms(
+        self,
+        code: str,
+        region: Region,
+        year: Optional[int] = None,
+        grade: Optional[int] = None,
+        **kwargs
+    ) -> tuple[Classroom, ...]:
         if year is None:
             year = datetime.today().year
         data = self._session.get(
-            **kwargs, service=Services.CLASSROOMS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            AY=year, GRADE=grade
+            **kwargs,
+            service=Services.CLASSROOMS,
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value,
+            AY=year,
+            GRADE=grade
         )
         return tuple(ClassroomParser.from_json(i) for i in data)
 
-    def get_lecture_rooms(self, code: str, region: Region,
-                          year: Optional[int] = None,
-                          grade: Optional[int] = None,
-                          semester: Optional[int] = None,
-                          **kwargs) -> tuple[LectureRoom, ...]:
+    def get_lecture_rooms(
+        self,
+        code: str,
+        region: Region,
+        year: Optional[int] = None,
+        grade: Optional[int] = None,
+        semester: Optional[int] = None,
+        **kwargs
+    ) -> tuple[LectureRoom, ...]:
         if year is None:
             year = datetime.today().year
         data = self._session.get(
-            **kwargs, service=Services.LECTURE_ROOMS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-            AY=year, GRADE=grade, SEM=semester
+            **kwargs,
+            service=Services.LECTURE_ROOMS,
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value,
+            AY=year,
+            GRADE=grade,
+            SEM=semester
         )
         return tuple(LectureRoomParser.from_json(i) for i in data)
 
-    def get_timetables(self, code: str, region: Region,
-                       timetable_service: Optional[Services] = None,
-                       date: Optional[str | tuple[str, str]] = None,
-                       **kwargs) -> tuple[Timetable, ...]:
+    def get_timetables(
+        self,
+        code: str,
+        region: Region,
+        timetable_service: Optional[Services] = None,
+        date: Optional[str | tuple[str, str]] = None,
+        **kwargs
+    ) -> tuple[Timetable, ...]:
         if date is None:
             today = datetime.today()
-            temp = (today - timedelta(days=today.weekday()))
+            temp = today - timedelta(days=today.weekday())
             end_date = (temp + timedelta(days=6)).strftime("%Y%m%d")
             start_date = temp.strftime("%Y%m%d")
         elif isinstance(date, str):
@@ -126,35 +160,51 @@ class SyncWrapper:
         else:
             raise ValueError("date 인자가 유효하지 않습니다.")
         if timetable_service is None:
-            services = (Services.TIMETABLES_E, Services.TIMETABLES_M,
-                        Services.TIMETABLES_H, Services.TIMETABLES_S)
+            services = (
+                Services.TIMETABLES_E,
+                Services.TIMETABLES_M,
+                Services.TIMETABLES_H,
+                Services.TIMETABLES_S,
+            )
             data = []
             for service in services:
-                data.extend(self._session.get(
-                    **kwargs, service=service,
-                    SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                    TI_FROM_YMD=start_date, TI_TO_YMD=end_date
-                ))
+                data.extend(
+                    self._session.get(
+                        **kwargs,
+                        service=service,
+                        SD_SCHUL_CODE=code,
+                        ATPT_OFCDC_SC_CODE=region.value,
+                        TI_FROM_YMD=start_date,
+                        TI_TO_YMD=end_date
+                    )
+                )
         else:
             data = self._session.get(
-                **kwargs, service=timetable_service,
-                SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value,
-                TI_FROM_YMD=start_date, TI_TO_YMD=end_date
+                **kwargs,
+                service=timetable_service,
+                SD_SCHUL_CODE=code,
+                ATPT_OFCDC_SC_CODE=region.value,
+                TI_FROM_YMD=start_date,
+                TI_TO_YMD=end_date
             )
         return tuple(TimetableParser.from_json(i) for i in data)
 
-    def get_departments(self, code: str, region: Region, **kwargs
-                        ) -> tuple[Department, ...]:
+    def get_departments(
+        self, code: str, region: Region, **kwargs
+    ) -> tuple[Department, ...]:
         data = self._session.get(
             Services.DEPARTMENTS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value, **kwargs
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value,
+            **kwargs
         )
         return tuple(DepartmentParser.from_json(i) for i in data)
 
-    def get_majors(self, code: str, region: Region, **kwargs
-                   ) -> tuple[Major, ...]:
+    def get_majors(self, code: str, region: Region, **kwargs) -> tuple[Major, ...]:
         data = self._session.get(
-            **kwargs, service=Services.MAJORS,
-            SD_SCHUL_CODE=code, ATPT_OFCDC_SC_CODE=region.value
+            **kwargs,
+            service=Services.MAJORS,
+            SD_SCHUL_CODE=code,
+            ATPT_OFCDC_SC_CODE=region.value
         )
         return tuple(MajorParser.from_json(i) for i in data)

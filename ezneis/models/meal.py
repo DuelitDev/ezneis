@@ -3,14 +3,7 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 
-__all__ = [
-    "Allergy",
-    "MealTime",
-    "Dish",
-    "Nutrient",
-    "Origin",
-    "Meal"
-]
+__all__ = ["Allergy", "MealTime", "Dish", "Nutrient", "Origin", "Meal"]
 
 
 # noinspection SpellCheckingInspection
@@ -20,6 +13,7 @@ class Allergy(Enum):
     """
     식품 알레르기 열거형입니다.
     """
+
     EGG = 1
     """난류에 의한 식품 알레르기입니다."""
     MILK = 2
@@ -67,6 +61,7 @@ class MealTime(Enum):
     """
     급식 시간 열거형입니다.
     """
+
     BREAKFAST = 1
     """조식입니다."""
     LUNCH = 2
@@ -83,6 +78,7 @@ class Dish:
     """
     요리 정보를 나타내는 데이터 클래스입니다.
     """
+
     name: str
     """요리 이름입니다."""
     allergies: tuple[Allergy, ...]
@@ -97,6 +93,7 @@ class Nutrient:
     """
     영양 정보를 나타내는 데이터 클래스입니다.
     """
+
     name: str
     """영양 이름입니다."""
     unit: str
@@ -113,6 +110,7 @@ class Origin:
     """
     원산지 정보를 나타내는 데이터 클래스입니다.
     """
+
     name: str
     """재료 이름입니다."""
     origin: str
@@ -127,6 +125,7 @@ class Meal:
     """
     급식 식단 정보를 나타내는 데이터 클래스입니다.
     """
+
     time: MealTime
     """급식 시간 (식사 코드)"""
     date: date

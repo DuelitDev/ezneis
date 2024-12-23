@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from .common import Parser
 from ..models.major import *
+from .common import Parser
 
-__all__ = [
-    "MajorParser"
-]
+__all__ = ["MajorParser"]
 
 
 # noinspection SpellCheckingInspection
@@ -15,16 +13,16 @@ class MajorParser(Parser):
     def from_json(cls, data: dict) -> Major:
         # 주야 과정명
         match data["DGHT_CRSE_SC_NM"]:
-            case "주간":       timing = Timing.DAY
-            case "야간":       timing = Timing.NIGHT
-            case "산업체특별": timing = Timing.INDUSTRY_SPECIAL
-            case _ as v: raise ValueError(f"처리할 수 없는 주야 과정명: {v}")
+            case "주간":
+                timing = Timing.DAY
+            case "야간":
+                timing = Timing.NIGHT
+            case "산업체특별":
+                timing = Timing.INDUSTRY_SPECIAL
+            case _ as v:
+                raise ValueError(f"처리할 수 없는 주야 과정명: {v}")
         # 계열명
         department = data["ORD_SC_NM"]
         # 학과명
         name = data["DDDEP_NM"]
-        return Major(
-            timing=timing,
-            department=department,
-            name=name
-        )
+        return Major(timing=timing, department=department, name=name)

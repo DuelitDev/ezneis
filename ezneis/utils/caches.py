@@ -4,9 +4,7 @@ from functools import wraps
 from inspect import iscoroutinefunction
 from time import time
 
-__all__ = [
-    "ttl_cache"
-]
+__all__ = ["ttl_cache"]
 
 
 # noinspection SpellCheckingInspection
@@ -22,6 +20,7 @@ def _deep_freeze(value: dict | list | set):
     :param value: 해시 가능한 형태로 변환할 입력 값.
     :return: 해시 가능한 형태로 변환된 입력 값.
     """
+
     if isinstance(value, dict):
         return frozenset((key, _deep_freeze(val)) for key, val in value.items())
     elif isinstance(value, (list, set)):
@@ -50,6 +49,7 @@ def ttl_cache(ttl: int, maxsize: int = 64, is_method: bool = False):
     :param is_method: 데코레이팅하는 함수가 클래스의 메소드인지 여부.
     :return: Time-To-Live 캐시 데코레이터.
     """
+
     def decorator(func):
         cache = OrderedDict()
 
