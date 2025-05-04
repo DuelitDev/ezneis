@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-
 from typing import Optional
-
+from .common import BASE_URL, Services, urljoin
+from ..exceptions import (
+    InternalServiceCode,
+    InternalServiceError,
+    ServiceUnavailableError,
+    SessionClosedException,
+)
 import requests
-
-from ..exceptions import (InternalServiceCode, InternalServiceError,
-                          ServiceUnavailableError, SessionClosedException)
-from ..utils.caches import ttl_cache
-from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
 
 __all__ = [
     "SyncSession",
@@ -35,7 +35,6 @@ class SyncSession:
     def closed(self) -> bool:
         return self._closed
 
-    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE, is_method=True)
     def get(
         self, service: Services, *, hint: Optional[int] = None, **kwargs
     ) -> list[dict]:
@@ -48,7 +47,9 @@ class SyncSession:
             "Type": "json",
             "pIndex": 1,
             "pSize": (
-                hint if hint and hint <= self._maximum_req else self._maximum_req
+                hint
+                if hint and hint <= self._maximum_req
+                else self._maximum_req
             ),
         }
         buffer = []
