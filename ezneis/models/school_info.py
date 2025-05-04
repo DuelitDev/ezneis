@@ -90,15 +90,15 @@ class SchoolInfoBuilder(CoreBuilder):
     def region(self, region: Region) -> SchoolInfoBuilder:
         self._param["ATPT_OFCDC_SC_CODE"] = region.value
         return self
-    
+
     def code(self, code: str) -> SchoolInfoBuilder:
         self._param["SD_SCHUL_CODE"] = code
         return self
-    
+
     def name(self, name: str) -> SchoolInfoBuilder:
         self._param["SCHUL_NM"] = name
         return self
-    
+
     def fetch_sync(self, sess: SyncSession) -> Sequence[SchoolInfo]:
         return tuple(
             SchoolInfo.from_dict(data)
