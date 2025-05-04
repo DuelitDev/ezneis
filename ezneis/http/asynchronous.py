@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-
-import asyncio
 from typing import Optional
-
-import aiohttp
-
+from .common import BASE_URL, Services, urljoin
 from ..exceptions import (
     InternalServiceCode,
     InternalServiceError,
     ServiceUnavailableError,
     SessionClosedException,
 )
-from ..utils.caches import ttl_cache
-from .common import BASE_URL, MAX_CACHE, TIME_TO_LIVE, Services, urljoin
+import aiohttp
+import asyncio
 
 __all__ = [
     "AsyncSession",
@@ -46,7 +42,6 @@ class AsyncSession:
     def closed(self) -> bool:
         return self._session.closed and self._closed
 
-    @ttl_cache(ttl=TIME_TO_LIVE, maxsize=MAX_CACHE, is_method=True)
     async def get(
         self, service: Services, *, hint: Optional[int] = None, **kwargs
     ) -> list[dict]:

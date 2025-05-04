@@ -4,7 +4,7 @@ from typing import Optional
 from .data.school import AsyncSchoolData, SyncSchoolData
 from .exceptions import DataNotFoundException
 from .http import AsyncSession, SyncSession
-from .utils.region import Region
+from ezneis.region import Region
 from .utils.session_manager import SessionManager
 from .wrappers import AsyncWrapper, SyncWrapper
 
