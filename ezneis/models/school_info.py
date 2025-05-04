@@ -27,7 +27,7 @@ class SchoolInfo(CoreModel):
     """학교명"""
     english_name: Optional[str]
     """영문 학교명"""
-    zip_code: Optional[str]
+    zip_code: Optional[int]
     """도로명 우편 번호"""
     address: Optional[str]
     """도로명 주소"""
@@ -55,7 +55,7 @@ class SchoolInfo(CoreModel):
         # 영문 학교명
         english_name = data["ENG_SCHUL_NM"]
         # 도로명 우편 번호
-        zip_code = zc if (zc := data["ORG_RDNZC"]) is not None else None
+        zip_code = int(zc) if (zc := data["ORG_RDNZC"]) is not None else None
         # 도로명 주소
         address = data["ORG_RDNMA"]
         # 도로명 상세 주소
@@ -97,6 +97,10 @@ class SchoolInfoBuilder(CoreBuilder):
 
     def name(self, name: str) -> SchoolInfoBuilder:
         self._param["SCHUL_NM"] = name
+        return self
+    
+    def hint(self, hint: int) -> SchoolInfoBuilder:
+        self._param["hint"] = hint
         return self
 
     def fetch_sync(self, sess: SyncSession) -> Sequence[SchoolInfo]:
