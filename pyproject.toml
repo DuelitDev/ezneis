@@ -2,6 +2,7 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+
 [project]
 name = "ezneis"
 version = "0.2.0"
@@ -17,15 +18,16 @@ dependencies = [
     "requests>=2.27.0,<3.0.0",
 ]
 
-[project.optional-dependencies]
-test = [
-    "pytest>=8.3.4",
-    "pytest-cov>=6.0.0",
-    "pytest-asyncio>=0.25.0",
-]
-style = [
+
+[dependency-groups]
+dev = [
     "black>=25.1.0",
+    "pyright>=1.1.400",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-asyncio>=0.26.0",
 ]
-typing = [
-    "pyright>=1.1.391",
-]
+
+
+[tool.black]
+line-length = 80

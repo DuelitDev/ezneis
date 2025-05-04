@@ -331,34 +331,29 @@ dependencies = [
     { name = "requests" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "black" },
-]
-style = [
-    { name = "black" },
-]
-test = [
+    { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
-]
-typing = [
-    { name = "pyright" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "aiohttp", specifier = ">=3.8.0,<4.0.0" },
-    { name = "black", marker = "extra == 'dev'", specifier = ">=25.1.0" },
-    { name = "black", marker = "extra == 'style'", specifier = ">=25.1.0" },
-    { name = "pyright", marker = "extra == 'typing'", specifier = ">=1.1.391" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3.4" },
-    { name = "pytest-asyncio", marker = "extra == 'test'", specifier = ">=0.25.0" },
-    { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=6.0.0" },
     { name = "requests", specifier = ">=2.27.0,<3.0.0" },
 ]
-provides-extras = ["dev", "test", "style", "typing"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "black", specifier = ">=25.1.0" },
+    { name = "pyright", specifier = ">=1.1.391" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-asyncio", specifier = ">=0.25.0" },
+    { name = "pytest-cov", specifier = ">=6.0.0" },
+]
 
 [[package]]
 name = "frozenlist"
