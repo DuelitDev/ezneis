@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from concurrent import futures
 from .service import Service
 from ..exceptions import (
     DataNotFoundException,
@@ -111,11 +112,53 @@ class SyncSession:
             for school in schools:
                 print(f"학교명: {school['SCHUL_NM']}")
         """
+        # 세션 상태 체크
         if self._closed:
             raise SessionClosedException
         if self._session is None:
             self._session = requests.Session()
-        # TODO: concurrent.futures를 이용한 병렬 IO 처리
+
+        # 요청 작업 생성
+        tasks = []
+        records = []
+
+        with futures.ThreadPoolExecutor() as executor:
+            # 예상 레코드 수가 설정된 경우
+            if expected is not None:
+                pages = (expected + self._max_req - 1) // self._max_req
+                size = min(self._max_req, expected)
+                start = 1
+            # 예상 레코드 수가 설정되지 않은 경우
+            else:
+                # 단일 요청을 통해 총 레코드 개수를 가져오기
+                expected, rows = self._request(svc, 1, self._max_req, **kwargs)
+                records.extend(rows)
+                # 첫번째 요청을 기반으로 페이지 계산
+                pages = (expected + self._max_req - 1) // self._max_req
+                size = self._max_req
+                start = 2
+            # 페이지 갯수에 맞춰 요청 작업 생성
+            for i in range(start, pages + 1):
+                tasks.append(executor.submit(self._request, svc, i, size, **kwargs))
+
+            # 병렬 요청 결과 처리
+            for future in futures.as_completed(tasks):
+                try:
+                    result = future.result()
+                    _, rows = result
+                    records.extend(rows)
+                # 데이터가 없는 경우는 무시
+                except DataNotFoundException:
+                    continue
+                # 그 외 예외는 재전파
+                except Exception as e:
+                    raise e
+
+            # 레코드가 없는 경우 예외 발생
+            if len(records) == 0:
+                raise DataNotFoundException(svc.url, kwargs)
+            # 레코드를 최대 expected만큼 반환
+            return records[:expected]
 
     def _request(
         self, svc: Service, index: int, size: int, **kwargs
