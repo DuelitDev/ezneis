@@ -87,8 +87,12 @@ class SchoolInfo(CoreModel):
 
 class SchoolInfoBuilder(CoreBuilder):
     @property
-    def service(self) -> Service:
+    def _service(self) -> Service:
         return Service.SCHOOL_INFO
+
+    @property
+    def _model(self) -> type[CoreModel]:
+        return SchoolInfo
 
     def region(self, region: Region) -> SchoolInfoBuilder:
         self._param["ATPT_OFCDC_SC_CODE"] = region.value
