@@ -2,9 +2,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Optional, Sequence
 from .core import CoreModel, CoreBuilder
-from ..http import Services
+from ..http import Service
 from ..region import Region
 
 __all__ = [
@@ -25,19 +24,19 @@ class SchoolInfo(CoreModel):
     """행정 표준 코드"""
     name: str
     """학교명"""
-    english_name: Optional[str]
+    english_name: str | None
     """영문 학교명"""
-    zip_code: Optional[int]
+    zip_code: int | None
     """도로명 우편 번호"""
-    address: Optional[str]
+    address: str | None
     """도로명 주소"""
-    address_detail: Optional[str]
+    address_detail: str | None
     """도로명 상세 주소"""
     tel_number: str
     """전화 번호"""
-    website: Optional[str]
+    website: str | None
     """홈페이지 주소"""
-    fax_number: Optional[str]
+    fax_number: str | None
     """팩스 번호"""
     founded_date: date
     """설립 일자"""
@@ -88,9 +87,9 @@ class SchoolInfo(CoreModel):
 
 class SchoolInfoBuilder(CoreBuilder):
     @property
-    def service(self) -> Services:
-        return Services.SCHOOL_INFO
-    
+    def service(self) -> Service:
+        return Service.SCHOOL_INFO
+
     def region(self, region: Region) -> SchoolInfoBuilder:
         self._param["ATPT_OFCDC_SC_CODE"] = region.value
         return self
