@@ -38,4 +38,10 @@ class Service(Enum):
 
     @property
     def url(self) -> str:
+        """
+        나이스 교육정보 OPEN API 서비스 엔드포인트 URL을 반환합니다.
+
+        :return: NEIS OPEN API 서비스 엔드포인트 URL
+        :rtype: str
+        """
         return "https://open.neis.go.kr/hub/" + self.value
