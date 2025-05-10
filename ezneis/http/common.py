@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
-from requests.compat import urljoin
 
 __all__ = [
-    "BASE_URL",
     "Services",
-    "urljoin",
 ]
-
-
-BASE_URL = "https://open.neis.go.kr/hub/"
 
 
 class Services(Enum):
@@ -41,3 +35,7 @@ class Services(Enum):
     """학교 학과 정보입니다."""
     ACADEMY_INFO = "acaInsTiInfo"
     """학원 교습소 정보입니다."""
+
+    @property
+    def url(self) -> str:
+        return "https://open.neis.go.kr/hub/" + self.value

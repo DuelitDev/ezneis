@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from typing import Optional
-from .common import BASE_URL, Services, urljoin
+from .common import Services
 from ..exceptions import (
     InternalServiceCode,
     InternalServiceError,
@@ -10,6 +9,7 @@ from ..exceptions import (
 )
 import aiohttp
 import asyncio
+import orjson
 
 __all__ = [
     "AsyncSession",
@@ -42,12 +42,9 @@ class AsyncSession:
     def closed(self) -> bool:
         return self._session.closed and self._closed
 
-    async def get(
-        self, service: Services, *, hint: Optional[int] = None, **kwargs
-    ) -> list[dict]:
+    async def get(self, svc: Services, *, hint: int | None, **kwargs) -> list[dict]:
         if self.closed:
             raise SessionClosedException
-        url = urljoin(BASE_URL, service.value)
         params = {
             **kwargs,
             "KEY": self._key,
@@ -60,13 +57,13 @@ class AsyncSession:
         remaining = hint
 
         async def task(index: int = 1) -> list[dict]:
-            nonlocal url, params, remaining
+            nonlocal params, remaining
             params["pIndex"] = index
-            async with self._session.get(url, params=params) as response:
+            async with self._session.get(svc.url, params=params) as response:
                 if response.status != 200:
-                    raise ServiceUnavailableError(url)
+                    raise ServiceUnavailableError(svc.url)
                 json = await response.json()
-                if service.value not in json:
+                if svc.value not in json:
                     result = json["RESULT"]
                     code, message = result["CODE"], result["MESSAGE"]
                     if code == InternalServiceCode.NOT_FOUND.value:
@@ -74,7 +71,7 @@ class AsyncSession:
                             remaining = 0
                         return []
                     raise InternalServiceError(code, message)
-                head, data = json[service.value]
+                head, data = json[svc.value]
                 if remaining is None:
                     remaining = head["head"][0]["list_total_count"]
                 row = data["row"]
