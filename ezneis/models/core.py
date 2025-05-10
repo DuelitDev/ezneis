@@ -2,8 +2,7 @@
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import Sequence
-from ..http import AsyncSession, SyncSession
+from ..http import Service
 
 __all__ = ["CoreModel", "CoreBuilder"]
 
@@ -32,10 +31,7 @@ class CoreBuilder(metaclass=ABCMeta):
         self._param.clear()
         return self
 
+    @property
     @abstractmethod
-    def fetch_sync(self, sess: SyncSession) -> Sequence[CoreModel]:
-        pass
-
-    @abstractmethod
-    async def fetch_async(self, sess: AsyncSession) -> Sequence[CoreModel]:
+    def service(self) -> Service:
         pass
