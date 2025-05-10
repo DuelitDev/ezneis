@@ -2,11 +2,11 @@
 from enum import Enum
 
 __all__ = [
-    "Services",
+    "Service",
 ]
 
 
-class Services(Enum):
+class Service(Enum):
     """
     나이스 교육정보 OPEN API 서비스 엔드포인트 열거형입니다.
     """
