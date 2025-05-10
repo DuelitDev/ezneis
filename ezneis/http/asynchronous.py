@@ -130,20 +130,22 @@ class AsyncSession:
         if expected is not None:
             pages = (expected + self._max_req - 1) // self._max_req
             size = min(self._max_req, expected)
-            for i in range(pages):
-                tasks.append(self._request(svc, i + 1, size, **kwargs))
+            start = 1
         # 예상 레코드 수가 설정되지 않은 경우
         else:
+            # 단일 요청을 통해 총 레코드 개수를 가져오기
             expected, rows = await self._request(svc, 1, self._max_req, **kwargs)
             records.extend(rows)
             # 첫번째 요청을 기반으로 페이지 계산
             pages = (expected + self._max_req - 1) // self._max_req
-            for i in range(1, pages):
-                tasks.append(self._request(svc, i + 1, self._max_req, **kwargs))
+            size = self._max_req
+            start = 2
+        # 페이지 갯수에 맞춰 요청 작업 생성
+        for i in range(start, pages + 1):
+            tasks.append(self._request(svc, i, size, **kwargs))
 
         # 요청 작업 병렬 실행 후 처리
         for result in await asyncio.gather(*tasks, return_exceptions=True):
-            # 서비스 데이터 추가
             if isinstance(result, tuple):
                 _, rows = result
                 records.extend(rows)
