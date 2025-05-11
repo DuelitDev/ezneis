@@ -19,6 +19,7 @@ class CoreModel(metaclass=ABCMeta):
 class CoreBuilder(metaclass=ABCMeta):
     def __init__(self):
         self._param = {}
+        self._limit: int | None = None
 
     def __copy__(self):
         new = self.__class__()
@@ -42,16 +43,18 @@ class CoreBuilder(metaclass=ABCMeta):
     def _model(self) -> type[CoreModel]:
         pass
 
-    def get(self, sess: SyncSession, expected: int | None = None) -> Sequence:
+    def limit(self, limit: int) -> CoreBuilder:
+        self._limit = limit
+        return self
+
+    def fetch(self, sess: SyncSession) -> Sequence[CoreModel]:
         return tuple(
             self._model.from_dict(i)
-            for i in sess.get(self._service, expected=expected, **self._param)
+            for i in sess.get(self._service, limit=self._limit, **self._param)
         )
 
-    async def get_async(
-        self, sess: AsyncSession, expected: int | None = None
-    ) -> Sequence:
+    async def fetch_async(self, sess: AsyncSession) -> Sequence[CoreModel]:
         return tuple(
             self._model.from_dict(i)
-            for i in await sess.get(self._service, expected=expected, **self._param)
+            for i in await sess.get(self._service, limit=self._limit, **self._param)
         )

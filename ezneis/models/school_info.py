@@ -105,7 +105,3 @@ class SchoolInfoBuilder(CoreBuilder):
     def name(self, name: str) -> SchoolInfoBuilder:
         self._param["SCHUL_NM"] = name
         return self
-
-    def hint(self, hint: int) -> SchoolInfoBuilder:
-        self._param["hint"] = hint
-        return self
