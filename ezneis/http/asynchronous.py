@@ -74,7 +74,7 @@ class AsyncSession:
         await self.close()
 
     async def get(
-        self, svc: Service, *, expected: int | None = None, **kwargs
+        self, svc: Service, *, limit: int | None = None, **kwargs
     ) -> list[dict]:
         """
         나이스 교육정보 OPEN API에서 데이터를 조회합니다.
@@ -83,8 +83,8 @@ class AsyncSession:
 
         :param svc: 조회할 서비스 (Service 열거형)
         :type svc: Service
-        :param expected: 가져올 최대 레코드 수 (None인 경우 모든 레코드 조회)
-        :type expected: int 또는 None
+        :param limit: 가져올 최대 레코드 수 (None인 경우 모든 레코드 조회)
+        :type limit: int 또는 None
         :param kwargs: 서비스별 추가 매개변수
         :return: 조회된 데이터 레코드 목록
         :rtype: list[dict]
@@ -127,17 +127,17 @@ class AsyncSession:
         tasks = []
         records = []
         # 예상 레코드 수가 설정된 경우
-        if expected is not None:
-            pages = (expected + self._max_req - 1) // self._max_req
-            size = min(self._max_req, expected)
+        if limit is not None:
+            pages = (limit + self._max_req - 1) // self._max_req
+            size = min(self._max_req, limit)
             start = 1
         # 예상 레코드 수가 설정되지 않은 경우
         else:
             # 단일 요청을 통해 총 레코드 개수를 가져오기
-            expected, rows = await self._request(svc, 1, self._max_req, **kwargs)
+            limit, rows = await self._request(svc, 1, self._max_req, **kwargs)
             records.extend(rows)
             # 첫번째 요청을 기반으로 페이지 계산
-            pages = (expected + self._max_req - 1) // self._max_req
+            pages = (limit + self._max_req - 1) // self._max_req
             size = self._max_req
             start = 2
         # 페이지 갯수에 맞춰 요청 작업 생성
@@ -160,7 +160,7 @@ class AsyncSession:
         if len(records) == 0:
             raise DataNotFoundException(svc.url, kwargs)
         # 레코드를 최대 expected만큼 반환
-        return records[:expected]
+        return records[:limit]
 
     async def _request(
         self, svc: Service, index: int, size: int, **kwargs
