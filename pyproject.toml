@@ -1,31 +1,31 @@
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "ezneis"
-version = "0.1.2"
+version = "0.2.0"
 description = "ezneis: 나이스 API 파싱 라이브러리"
-authors = ["DuelitDev <jyoon07dev@gmail.com>"]
-license = "MIT License"
 readme = "README.md"
+requires-python = ">=3.10,<4.0"
+authors = [
+    { name = "DuelitDev", email = "jyoon07dev@gmail.com" }
+]
+license = { text = "MIT License" }
+dependencies = [
+    "aiohttp>=3.8.0,<4.0.0",
+    "requests>=2.27.0,<3.0.0",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<4.0"
-aiohttp = ">=3.8.0,<4.0.0"
-requests = ">=2.27.0,<3.0.0"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^8.3.4"
-pytest-cov = "^6.0.0"
-pytest-asyncio = "^0.25.0"
-
-[tool.poetry.group.style.dependencies]
-black = "^24.10.0"
-isort = "^5.13.2"
-
-[tool.poetry.group.typing.dependencies]
-pyright = "^1.1.391"
-mypy = "^1.14.0"
-
-
+[project.optional-dependencies]
+test = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-asyncio>=0.25.0",
+]
+style = [
+    "black>=25.1.0",
+]
+typing = [
+    "pyright>=1.1.391",
+]
