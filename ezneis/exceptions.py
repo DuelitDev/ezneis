@@ -10,6 +10,9 @@ __all__ = [
 ]
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class InternalServiceCode(Enum):
     """
     내부 서비스 오류에 대한 코드 열거형입니다.
@@ -51,6 +54,9 @@ class InternalServiceCode(Enum):
        지속적으로 발생시 홈페이지로 문의(Q&A) 바랍니다."""
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class InternalServiceError(Exception):
     """
     요청한 서비스의 데이터에 발생한 오류를 나타냅니다.
@@ -82,6 +88,9 @@ class InternalServiceError(Exception):
         return self._message
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class ServiceUnavailableError(Exception):
     """
     서비스 요청에 실패했을 때 발생한 오류를 나타냅니다.
@@ -103,6 +112,9 @@ class ServiceUnavailableError(Exception):
         return self._url
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class DataNotFoundException(Exception):
     """
     서비스 데이터가 없는 예외를 나타냅니다.
@@ -134,6 +146,9 @@ class DataNotFoundException(Exception):
         return self._query
 
 
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
 class SessionClosedException(IOError):
     """
     사용하려는 세션이 이미 닫힌 예외를 나타냅니다.

@@ -1,12 +1,26 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
 
+from requests.compat import urljoin
+
 __all__ = [
-    "Service",
+    "BASE_URL",
+    "MAX_CACHE",
+    "TIME_TO_LIVE",
+    "Services",
+    "urljoin",
 ]
 
 
-class Service(Enum):
+BASE_URL = "https://open.neis.go.kr/hub/"
+MAX_CACHE = 64
+TIME_TO_LIVE = 86400
+
+
+# noinspection SpellCheckingInspection
+# noinspection GrazieInspection
+# PyCharm IDE의 오탈자/문법 관련 기능을 무시
+class Services(Enum):
     """
     나이스 교육정보 OPEN API 서비스 엔드포인트 열거형입니다.
     """
@@ -35,13 +49,3 @@ class Service(Enum):
     """학교 학과 정보입니다."""
     ACADEMY_INFO = "acaInsTiInfo"
     """학원 교습소 정보입니다."""
-
-    @property
-    def url(self) -> str:
-        """
-        나이스 교육정보 OPEN API 서비스 엔드포인트 URL을 반환합니다.
-
-        :return: NEIS OPEN API 서비스 엔드포인트 URL
-        :rtype: str
-        """
-        return "https://open.neis.go.kr/hub/" + self.value
