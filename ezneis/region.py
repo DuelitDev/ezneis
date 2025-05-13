@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
 
-__all__ = ["Region"]
+__all__ = [
+    "Region",
+]
 
 
 class Region(Enum):

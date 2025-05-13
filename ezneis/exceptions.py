@@ -91,7 +91,7 @@ class ServiceUnavailableError(Exception):
         self._url = url
 
     def __str__(self) -> str:
-        return f"Endpoint에 연결 실패: {self._url}"
+        return f"'{self._url}'에 연결할 수 없습니다."
 
     @property
     def url(self) -> str:
@@ -108,8 +108,30 @@ class DataNotFoundException(Exception):
     서비스 데이터가 없는 예외를 나타냅니다.
     """
 
-    def __init__(self, message: str = ""):
-        super().__init__(message)
+    def __init__(self, url: str, query: dict):
+        self._url = url
+        self._query = query
+
+    def __str__(self) -> str:
+        return f"'{self._url}'로부터 '{self._query}'에 대한 데이터를 찾을 수 없습니다."
+
+    @property
+    def url(self) -> str:
+        """
+        요청한 서비스의 url입니다.
+
+        :return: str
+        """
+        return self._url
+
+    @property
+    def query(self) -> dict:
+        """
+        요청한 서비스에 전달한 query입니다.
+
+        :return: dict
+        """
+        return self._query
 
 
 class SessionClosedException(IOError):
